@@ -12,40 +12,21 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
     
-    /* Animated gradient background */
     .animated-bg {
-      background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #16213e, #0f0f23);
+      background: linear-gradient(-45deg, #0d0015, #1a0a2e, #0f0a1f, #150825, #0a0612);
       background-size: 400% 400%;
       animation: gradientShift 15s ease infinite;
     }
-    
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
     
-    /* Floating particles */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
-    
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(255, 107, 53, 0.3);
-      border-radius: 50%;
-      animation: float 20s infinite;
-    }
-    
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
+    .particle { position: absolute; width: 4px; height: 4px; border-radius: 50%; animation: float 20s infinite; }
+    .particle-pink { background: rgba(247, 37, 133, 0.6); box-shadow: 0 0 10px rgba(247, 37, 133, 0.4); }
+    .particle-blue { background: rgba(76, 201, 240, 0.6); box-shadow: 0 0 10px rgba(76, 201, 240, 0.4); }
     @keyframes float {
       0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
       10% { opacity: 1; }
@@ -53,199 +34,66 @@
       100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
     }
     
-    /* Glow effects */
-    .glow-orange {
-      box-shadow: 0 0 20px rgba(255, 107, 53, 0.4), 0 0 40px rgba(255, 107, 53, 0.2), 0 0 60px rgba(255, 107, 53, 0.1);
-    }
+    .glow-pink { box-shadow: 0 0 20px rgba(247, 37, 133, 0.5), 0 0 40px rgba(247, 37, 133, 0.3), 0 0 60px rgba(247, 37, 133, 0.1); }
+    .glow-blue { box-shadow: 0 0 20px rgba(76, 201, 240, 0.5), 0 0 40px rgba(76, 201, 240, 0.3); }
+    .glow-text { text-shadow: 0 0 20px rgba(247, 37, 133, 0.8), 0 0 40px rgba(247, 37, 133, 0.4), 0 0 80px rgba(247, 37, 133, 0.2); }
+    .glow-text-blue { text-shadow: 0 0 20px rgba(76, 201, 240, 0.8), 0 0 40px rgba(76, 201, 240, 0.4); }
     
-    .glow-text {
-      text-shadow: 0 0 20px rgba(255, 107, 53, 0.8), 0 0 40px rgba(255, 107, 53, 0.4);
-    }
+    .btn-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .btn-hover:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 40px rgba(247, 37, 133, 0.4); }
+    .btn-hover:active { transform: translateY(0) scale(0.98); }
     
-    /* Button animations */
-    .btn-hover {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .card-enter { animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    @keyframes cardEnter { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     
-    .btn-hover:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 10px 40px rgba(255, 107, 53, 0.4);
-    }
+    .shake { animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+    @keyframes shake { 10%, 90% { transform: translateX(-1px); } 20%, 80% { transform: translateX(2px); } 30%, 50%, 70% { transform: translateX(-4px); } 40%, 60% { transform: translateX(4px); } }
     
-    .btn-hover:active {
-      transform: translateY(0) scale(0.98);
-    }
+    .pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
     
-    /* Card animations */
-    .card-enter {
-      animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    @keyframes cardEnter {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    
-    /* Shake animation */
-    .shake {
-      animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
-    }
-    
-    @keyframes shake {
-      10%, 90% { transform: translateX(-1px); }
-      20%, 80% { transform: translateX(2px); }
-      30%, 50%, 70% { transform: translateX(-4px); }
-      40%, 60% { transform: translateX(4px); }
-    }
-    
-    /* Pulse animation */
-    .pulse {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-    
-    /* Streak glow pulse */
-    .streak-glow {
-      animation: streakPulse 2s ease-in-out infinite;
-    }
-    
+    .streak-glow { animation: streakPulse 2s ease-in-out infinite; }
     @keyframes streakPulse {
-      0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
-      50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.6), 0 0 60px rgba(255, 107, 53, 0.3); }
+      0%, 100% { box-shadow: 0 0 20px rgba(76, 201, 240, 0.3), inset 0 0 20px rgba(76, 201, 240, 0.05); }
+      50% { box-shadow: 0 0 40px rgba(76, 201, 240, 0.6), 0 0 60px rgba(76, 201, 240, 0.3), inset 0 0 30px rgba(76, 201, 240, 0.1); }
     }
     
-    /* Option button hover */
-    .option-btn {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .option-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .option-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(247, 37, 133, 0.2); border-color: rgba(247, 37, 133, 0.5); }
     
-    .option-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
+    .confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
+    .confetti-piece { position: absolute; width: 10px; height: 10px; animation: confettiFall 3s ease-out forwards; }
+    @keyframes confettiFall { 0% { transform: translateY(-100px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
     
-    /* Confetti */
-    .confetti {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1000;
-    }
+    .celebration-overlay { animation: celebrationPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    @keyframes celebrationPop { 0% { transform: translate(-50%, -50%) scale(0); } 50% { transform: translate(-50%, -50%) scale(1.1); } 100% { transform: translate(-50%, -50%) scale(1); } }
     
-    .confetti-piece {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      animation: confettiFall 3s ease-out forwards;
-    }
+    .reveal-text { animation: revealText 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    @keyframes revealText { 0% { opacity: 0; transform: scale(0.8); filter: blur(10px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
     
-    @keyframes confettiFall {
-      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-    }
+    .glass-card { background: rgba(20, 10, 40, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(247, 37, 133, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 60px rgba(247, 37, 133, 0.03); }
     
-    /* Celebration overlay */
-    .celebration-overlay {
-      animation: celebrationPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
+    .animated-border { position: relative; background: linear-gradient(135deg, rgba(247, 37, 133, 0.15), rgba(76, 201, 240, 0.1)); }
+    .animated-border::before { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, #f72585, #4cc9f0, #f72585, #4cc9f0); background-size: 400% 400%; border-radius: 18px; z-index: -1; animation: borderGlow 3s ease infinite; opacity: 0.6; }
+    @keyframes borderGlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     
-    @keyframes celebrationPop {
-      0% { transform: translate(-50%, -50%) scale(0); }
-      50% { transform: translate(-50%, -50%) scale(1.1); }
-      100% { transform: translate(-50%, -50%) scale(1); }
-    }
+    .progress-fill { background: linear-gradient(90deg, #f72585, #b5179e, #7209b7, #4cc9f0, #f72585); background-size: 300% 100%; animation: progressShine 2s linear infinite; }
+    @keyframes progressShine { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     
-    /* Reveal animation */
-    .reveal-text {
-      animation: revealText 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .bounce { animation: bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    @keyframes bounce { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
     
-    @keyframes revealText {
-      0% { opacity: 0; transform: scale(0.8); filter: blur(10px); }
-      100% { opacity: 1; transform: scale(1); filter: blur(0); }
-    }
+    .warning-pulse { animation: warningPulse 1s ease-in-out infinite; }
+    @keyframes warningPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     
-    /* Glassmorphism card */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
+    .neon-flicker { animation: flicker 4s infinite; }
+    @keyframes flicker { 0%, 100% { opacity: 1; } 92% { opacity: 1; } 93% { opacity: 0.8; } 94% { opacity: 1; } 96% { opacity: 0.9; } 97% { opacity: 1; } }
     
-    /* Animated border */
-    .animated-border {
-      position: relative;
-      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 140, 66, 0.05));
-    }
-    
-    .animated-border::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, #ff6b35, #ff8c42, #ff6b35, #ff8c42);
-      background-size: 400% 400%;
-      border-radius: 18px;
-      z-index: -1;
-      animation: borderGlow 3s ease infinite;
-      opacity: 0.5;
-    }
-    
-    @keyframes borderGlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    /* Progress bar animation */
-    .progress-fill {
-      background: linear-gradient(90deg, #ff6b35, #ff8c42, #ff6b35);
-      background-size: 200% 100%;
-      animation: progressShine 2s linear infinite;
-    }
-    
-    @keyframes progressShine {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-    
-    /* Bounce animation for emojis */
-    .bounce {
-      animation: bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    
-    @keyframes bounce {
-      0% { transform: scale(0); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-    
-    /* Warning pulse */
-    .warning-pulse {
-      animation: warningPulse 1s ease-in-out infinite;
-    }
-    
-    @keyframes warningPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-    
-    /* Scrollbar styling */
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
-    ::-webkit-scrollbar-thumb { background: rgba(255, 107, 53, 0.5); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 107, 53, 0.7); }
+    ::-webkit-scrollbar-track { background: rgba(20, 10, 40, 0.5); }
+    ::-webkit-scrollbar-thumb { background: rgba(247, 37, 133, 0.5); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(247, 37, 133, 0.7); }
+    ::selection { background: rgba(247, 37, 133, 0.4); color: #fff; }
   </style>
 </head>
 <body>
@@ -253,64 +101,22 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    // Confetti Component
     const Confetti = ({ active }) => {
       if (!active) return null;
-      
-      const colors = ['#ff6b35', '#ff8c42', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6b6b'];
-      const pieces = Array.from({ length: 50 }, (_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        delay: Math.random() * 0.5,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        size: Math.random() * 10 + 5,
-      }));
-      
+      const colors = ['#f72585', '#b5179e', '#7209b7', '#4cc9f0', '#4361ee', '#3f37c9'];
+      const pieces = Array.from({ length: 50 }, (_, i) => ({ id: i, left: Math.random() * 100, delay: Math.random() * 0.5, color: colors[Math.floor(Math.random() * colors.length)], size: Math.random() * 10 + 5 }));
       return (
         <div className="confetti">
-          {pieces.map(piece => (
-            <div
-              key={piece.id}
-              className="confetti-piece"
-              style={{
-                left: `${piece.left}%`,
-                animationDelay: `${piece.delay}s`,
-                backgroundColor: piece.color,
-                width: piece.size,
-                height: piece.size,
-                borderRadius: Math.random() > 0.5 ? '50%' : '0',
-              }}
-            />
-          ))}
+          {pieces.map(piece => (<div key={piece.id} className="confetti-piece" style={{ left: `${piece.left}%`, animationDelay: `${piece.delay}s`, backgroundColor: piece.color, width: piece.size, height: piece.size, borderRadius: Math.random() > 0.5 ? '50%' : '0', boxShadow: `0 0 10px ${piece.color}` }} />))}
         </div>
       );
     };
 
-    // Floating Particles
     const Particles = () => {
-      const particles = Array.from({ length: 20 }, (_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        delay: Math.random() * 20,
-        duration: 15 + Math.random() * 10,
-        size: 2 + Math.random() * 4,
-      }));
-      
+      const particles = Array.from({ length: 25 }, (_, i) => ({ id: i, left: Math.random() * 100, delay: Math.random() * 20, duration: 15 + Math.random() * 10, size: 2 + Math.random() * 4, color: Math.random() > 0.5 ? 'pink' : 'blue' }));
       return (
         <div className="particles">
-          {particles.map(p => (
-            <div
-              key={p.id}
-              className="particle"
-              style={{
-                left: `${p.left}%`,
-                animationDelay: `${p.delay}s`,
-                animationDuration: `${p.duration}s`,
-                width: p.size,
-                height: p.size,
-              }}
-            />
-          ))}
+          {particles.map(p => (<div key={p.id} className={`particle particle-${p.color}`} style={{ left: `${p.left}%`, animationDelay: `${p.delay}s`, animationDuration: `${p.duration}s`, width: p.size, height: p.size }} />))}
         </div>
       );
     };
@@ -323,22 +129,10 @@
       const [isLoading, setIsLoading] = useState(false);
       const [showCelebration, setShowCelebration] = useState(false);
       const [showConfetti, setShowConfetti] = useState(false);
-      const [rerollUsed, setRerollUsed] = useState(false);
       const [rerollAvailable, setRerollAvailable] = useState(true);
       const [onboardingStep, setOnboardingStep] = useState(0);
       const [shakeCard, setShakeCard] = useState(false);
-      const [userProfile, setUserProfile] = useState({
-        name: '',
-        dietaryRestrictions: [],
-        favoriteCuisines: [],
-        hatedCuisines: [],
-        entertainmentLikes: [],
-        entertainmentDislikes: [],
-        personality: '',
-        chronotype: '',
-        fitnessLevel: '',
-        datingStyle: '',
-      });
+      const [userProfile, setUserProfile] = useState({ name: '', dietaryRestrictions: [], favoriteCuisines: [], entertainmentLikes: [], entertainmentDislikes: [], personality: '', chronotype: '', fitnessLevel: '' });
       const [rejectedDecisions, setRejectedDecisions] = useState([]);
       const [showFeedback, setShowFeedback] = useState(false);
       const [feedbackReason, setFeedbackReason] = useState('');
@@ -358,173 +152,79 @@
 
       const onboardingQuestions = [
         { id: 'name', question: "What should I call you?", type: 'text', field: 'name' },
-        {
-          id: 'dietary', question: "Any foods you CAN'T or WON'T eat?", type: 'multiSelect', field: 'dietaryRestrictions',
-          options: [
-            { id: 'vegetarian', label: '🥬 Vegetarian' },
-            { id: 'vegan', label: '🌱 Vegan' },
-            { id: 'glutenFree', label: '🌾 Gluten-Free' },
-            { id: 'dairyFree', label: '🥛 Dairy-Free' },
-            { id: 'halal', label: '☪️ Halal' },
-            { id: 'kosher', label: '✡️ Kosher' },
-            { id: 'seafood', label: '🐟 No Seafood' },
-            { id: 'spicy', label: '🌶️ No Spicy' },
-            { id: 'none', label: '✓ No Restrictions' },
-          ],
-        },
-        {
-          id: 'cuisines', question: "What cuisines do you LOVE?", type: 'multiSelect', field: 'favoriteCuisines',
-          options: [
-            { id: 'italian', label: '🍝 Italian' },
-            { id: 'mexican', label: '🌮 Mexican' },
-            { id: 'chinese', label: '🥡 Chinese' },
-            { id: 'japanese', label: '🍣 Japanese' },
-            { id: 'indian', label: '🍛 Indian' },
-            { id: 'thai', label: '🍜 Thai' },
-            { id: 'american', label: '🍔 American' },
-            { id: 'mediterranean', label: '🥙 Mediterranean' },
-            { id: 'korean', label: '🍲 Korean' },
-            { id: 'vietnamese', label: '🍲 Vietnamese' },
-          ],
-        },
-        {
-          id: 'entertainment', question: "What do you like to watch?", type: 'multiSelect', field: 'entertainmentLikes',
-          options: [
-            { id: 'comedy', label: '😂 Comedy' },
-            { id: 'drama', label: '🎭 Drama' },
-            { id: 'action', label: '💥 Action' },
-            { id: 'horror', label: '👻 Horror' },
-            { id: 'documentary', label: '📚 Documentary' },
-            { id: 'reality', label: '📺 Reality TV' },
-            { id: 'scifi', label: '🚀 Sci-Fi' },
-            { id: 'romance', label: '💕 Romance' },
-            { id: 'thriller', label: '😱 Thriller' },
-            { id: 'sports', label: '⚽ Sports' },
-            { id: 'anime', label: '🎌 Anime' },
-          ],
-        },
-        {
-          id: 'entertainmentHate', question: "What do you NEVER want to watch?", type: 'multiSelect', field: 'entertainmentDislikes',
-          options: [
-            { id: 'comedy', label: '😂 Comedy' },
-            { id: 'drama', label: '🎭 Drama' },
-            { id: 'action', label: '💥 Action' },
-            { id: 'horror', label: '👻 Horror' },
-            { id: 'documentary', label: '📚 Documentary' },
-            { id: 'reality', label: '📺 Reality TV' },
-            { id: 'scifi', label: '🚀 Sci-Fi' },
-            { id: 'romance', label: '💕 Romance' },
-            { id: 'thriller', label: '😱 Thriller' },
-            { id: 'sports', label: '⚽ Sports' },
-            { id: 'anime', label: '🎌 Anime' },
-            { id: 'none', label: '✓ I watch anything' },
-          ],
-        },
-        {
-          id: 'personality', question: "Social battery?", type: 'singleSelect', field: 'personality',
-          options: [
-            { id: 'introvert', label: '🏠 Introvert - Recharging alone' },
-            { id: 'extrovert', label: '🎉 Extrovert - Energized by people' },
-            { id: 'ambivert', label: '⚖️ Ambivert - Depends on the day' },
-          ],
-        },
-        {
-          id: 'chronotype', question: "When are you at your best?", type: 'singleSelect', field: 'chronotype',
-          options: [
-            { id: 'earlyBird', label: '🌅 Early Bird - Morning person' },
-            { id: 'nightOwl', label: '🦉 Night Owl - Late night energy' },
-            { id: 'flexible', label: '🔄 Flexible - Whenever' },
-          ],
-        },
-        {
-          id: 'fitness', question: "Fitness level?", type: 'singleSelect', field: 'fitnessLevel',
-          options: [
-            { id: 'beginner', label: '🌱 Just starting out' },
-            { id: 'intermediate', label: '💪 Regular exerciser' },
-            { id: 'advanced', label: '🏆 Fitness enthusiast' },
-            { id: 'rest', label: '😴 Currently on a break' },
-          ],
-        },
+        { id: 'dietary', question: "Any foods you CAN'T or WON'T eat?", type: 'multiSelect', field: 'dietaryRestrictions', options: [{ id: 'vegetarian', label: '🥬 Vegetarian' }, { id: 'vegan', label: '🌱 Vegan' }, { id: 'glutenFree', label: '🌾 Gluten-Free' }, { id: 'dairyFree', label: '🥛 Dairy-Free' }, { id: 'halal', label: '☪️ Halal' }, { id: 'kosher', label: '✡️ Kosher' }, { id: 'seafood', label: '🐟 No Seafood' }, { id: 'spicy', label: '🌶️ No Spicy' }, { id: 'none', label: '✓ No Restrictions' }] },
+        { id: 'cuisines', question: "What cuisines do you LOVE?", type: 'multiSelect', field: 'favoriteCuisines', options: [{ id: 'italian', label: '🍝 Italian' }, { id: 'mexican', label: '🌮 Mexican' }, { id: 'chinese', label: '🥡 Chinese' }, { id: 'japanese', label: '🍣 Japanese' }, { id: 'indian', label: '🍛 Indian' }, { id: 'thai', label: '🍜 Thai' }, { id: 'american', label: '🍔 American' }, { id: 'mediterranean', label: '🥙 Mediterranean' }, { id: 'korean', label: '🍲 Korean' }, { id: 'vietnamese', label: '🍲 Vietnamese' }] },
+        { id: 'entertainment', question: "What do you like to watch?", type: 'multiSelect', field: 'entertainmentLikes', options: [{ id: 'comedy', label: '😂 Comedy' }, { id: 'drama', label: '🎭 Drama' }, { id: 'action', label: '💥 Action' }, { id: 'horror', label: '👻 Horror' }, { id: 'documentary', label: '📚 Documentary' }, { id: 'reality', label: '📺 Reality TV' }, { id: 'scifi', label: '🚀 Sci-Fi' }, { id: 'romance', label: '💕 Romance' }, { id: 'thriller', label: '😱 Thriller' }, { id: 'anime', label: '🎌 Anime' }] },
+        { id: 'entertainmentHate', question: "What do you NEVER want to watch?", type: 'multiSelect', field: 'entertainmentDislikes', options: [{ id: 'comedy', label: '😂 Comedy' }, { id: 'drama', label: '🎭 Drama' }, { id: 'action', label: '💥 Action' }, { id: 'horror', label: '👻 Horror' }, { id: 'documentary', label: '📚 Documentary' }, { id: 'reality', label: '📺 Reality TV' }, { id: 'scifi', label: '🚀 Sci-Fi' }, { id: 'romance', label: '💕 Romance' }, { id: 'none', label: '✓ I watch anything' }] },
+        { id: 'personality', question: "Social battery?", type: 'singleSelect', field: 'personality', options: [{ id: 'introvert', label: '🏠 Introvert - Recharging alone' }, { id: 'extrovert', label: '🎉 Extrovert - Energized by people' }, { id: 'ambivert', label: '⚖️ Ambivert - Depends on the day' }] },
+        { id: 'chronotype', question: "When are you at your best?", type: 'singleSelect', field: 'chronotype', options: [{ id: 'earlyBird', label: '🌅 Early Bird - Morning person' }, { id: 'nightOwl', label: '🦉 Night Owl - Late night energy' }, { id: 'flexible', label: '🔄 Flexible - Whenever' }] },
+        { id: 'fitness', question: "Fitness level?", type: 'singleSelect', field: 'fitnessLevel', options: [{ id: 'beginner', label: '🌱 Just starting out' }, { id: 'intermediate', label: '💪 Regular exerciser' }, { id: 'advanced', label: '🏆 Fitness enthusiast' }, { id: 'rest', label: '😴 Currently on a break' }] },
       ];
 
       const decisions = {
         eat: [
-          { text: "Thai food. Pad Thai specifically. Don't think, just order.", tags: ['thai', 'asian'], restrictions: ['vegan'] },
+          { text: "Thai food. Pad Thai specifically. Don't think, just order.", tags: ['thai'], restrictions: ['vegan'] },
           { text: "Pizza. Pepperoni. The classic exists for a reason.", tags: ['italian', 'american'], restrictions: ['vegetarian', 'vegan', 'halal', 'kosher'] },
-          { text: "Sushi. Get the salmon roll and stop overthinking.", tags: ['japanese', 'seafood'], restrictions: ['vegan', 'seafood'] },
+          { text: "Sushi. Get the salmon roll and stop overthinking.", tags: ['japanese'], restrictions: ['vegan', 'seafood'] },
           { text: "Tacos. Three of them. Al pastor.", tags: ['mexican'], restrictions: ['vegetarian', 'vegan', 'halal'] },
           { text: "Burger and fries. Sometimes basic is beautiful.", tags: ['american'], restrictions: ['vegetarian', 'vegan', 'halal'] },
-          { text: "Chinese takeout. Orange chicken. You know you want it.", tags: ['chinese', 'asian'], restrictions: ['vegetarian', 'vegan'] },
+          { text: "Chinese takeout. Orange chicken. You know you want it.", tags: ['chinese'], restrictions: ['vegetarian', 'vegan'] },
           { text: "Mediterranean. Get a shawarma plate. Trust me.", tags: ['mediterranean'], restrictions: ['vegetarian', 'vegan'] },
           { text: "Indian. Butter chicken with garlic naan. Done.", tags: ['indian'], restrictions: ['vegetarian', 'vegan', 'dairyFree'] },
-          { text: "Pho. A big steaming bowl. Your soul needs it.", tags: ['vietnamese', 'asian'], restrictions: ['vegetarian', 'vegan'] },
-          { text: "Wings. Hot. With blue cheese. No ranch.", tags: ['american'], restrictions: ['vegetarian', 'vegan', 'spicy', 'dairyFree'] },
+          { text: "Pho. A big steaming bowl. Your soul needs it.", tags: ['vietnamese'], restrictions: ['vegetarian', 'vegan'] },
           { text: "Salad. A big one. Your body will thank you tomorrow.", tags: ['healthy'], restrictions: [] },
-          { text: "Breakfast for dinner. Pancakes. Live a little.", tags: ['american'], restrictions: ['vegan', 'glutenFree'] },
-          { text: "Veggie stir fry. Quick, healthy, delicious.", tags: ['asian', 'healthy'], restrictions: [] },
+          { text: "Veggie stir fry. Quick, healthy, delicious.", tags: ['healthy'], restrictions: [] },
           { text: "Falafel wrap. Crispy, fresh, satisfying.", tags: ['mediterranean'], restrictions: [] },
           { text: "Pasta with marinara. Simple but perfect.", tags: ['italian'], restrictions: ['glutenFree'] },
-          { text: "Korean BBQ. Treat yourself.", tags: ['korean', 'asian'], restrictions: ['vegetarian', 'vegan'] },
-          { text: "Ramen. A big bowl of comfort.", tags: ['japanese', 'asian'], restrictions: ['vegetarian', 'vegan', 'glutenFree'] },
+          { text: "Korean BBQ. Treat yourself.", tags: ['korean'], restrictions: ['vegetarian', 'vegan'] },
+          { text: "Ramen. A big bowl of comfort.", tags: ['japanese'], restrictions: ['vegetarian', 'vegan', 'glutenFree'] },
         ],
         wear: [
-          { text: "The black outfit. You already know it looks good.", tags: ['classic'] },
-          { text: "That thing you haven't worn in a while. Today's the day.", tags: ['adventurous'] },
-          { text: "Jeans and a clean white tee. Timeless.", tags: ['casual', 'classic'] },
-          { text: "Your most comfortable fit. Confidence > fashion.", tags: ['comfort'] },
-          { text: "Something bold. Stand out today.", tags: ['bold', 'adventurous'] },
-          { text: "All black everything. You're that person now.", tags: ['classic', 'bold'] },
-          { text: "The outfit you feel hottest in. No second-guessing.", tags: ['bold'] },
-          { text: "Dress UP. Even if no one sees you. Do it for you.", tags: ['bold', 'adventurous'] },
-          { text: "Dress down. Comfort is underrated.", tags: ['comfort', 'casual'] },
-          { text: "That new thing you bought. Stop saving it for 'someday.'", tags: ['adventurous'] },
+          { text: "The black outfit. You already know it looks good.", tags: [] },
+          { text: "That thing you haven't worn in a while. Today's the day.", tags: [] },
+          { text: "Jeans and a clean white tee. Timeless.", tags: [] },
+          { text: "Your most comfortable fit. Confidence > fashion.", tags: [] },
+          { text: "Something bold. Stand out today.", tags: [] },
+          { text: "All black everything. You're that person now.", tags: [] },
+          { text: "The outfit you feel hottest in. No second-guessing.", tags: [] },
+          { text: "Dress UP. Even if no one sees you. Do it for you.", tags: [] },
         ],
         goOut: [
           { text: "GO OUT. You'll regret staying in.", tags: ['extrovert', 'ambivert'] },
           { text: "Stay in. Recharge. Tomorrow you'll dominate.", tags: ['introvert', 'ambivert'] },
           { text: "Go out but leave by midnight. Best of both worlds.", tags: ['ambivert'] },
-          { text: "Stay in, but make it intentional. Movie, snacks, self-care.", tags: ['introvert', 'ambivert'] },
+          { text: "Stay in, but make it intentional. Movie, snacks, self-care.", tags: ['introvert'] },
           { text: "GO. OUT. NOW. Stop asking apps for permission to live.", tags: ['extrovert'] },
           { text: "Stay home. Your couch misses you.", tags: ['introvert'] },
-          { text: "Go out. You can sleep when you're dead.", tags: ['extrovert', 'nightOwl'] },
-          { text: "Only go if you actually WANT to. Not out of FOMO.", tags: ['introvert', 'ambivert'] },
         ],
         watch: [
-          { text: "Something you've seen before that you love. Comfort wins.", tags: ['comfort'] },
-          { text: "That show everyone's been telling you about. Finally.", tags: ['trending'] },
+          { text: "Something you've seen before that you love. Comfort wins.", tags: [] },
+          { text: "That show everyone's been telling you about. Finally.", tags: [] },
           { text: "A documentary. Learn something random tonight.", tags: ['documentary'] },
           { text: "Comedy. You need to laugh. Pick the dumbest thing.", tags: ['comedy'] },
           { text: "A thriller. Get your heart racing.", tags: ['thriller'] },
-          { text: "Whatever's trending. Join the cultural moment.", tags: ['trending'] },
-          { text: "An old movie. The classics earned their reputation.", tags: ['classic'] },
           { text: "Reality TV. Turn your brain off. It's okay.", tags: ['reality'] },
-          { text: "That one in your watchlist you keep ignoring. Tonight's the night.", tags: ['backlog'] },
           { text: "Action movie. Explosions and car chases.", tags: ['action'] },
           { text: "Horror. If you're brave enough.", tags: ['horror'] },
           { text: "Sci-fi. Escape to another world.", tags: ['scifi'] },
           { text: "Romance. Feel some feelings.", tags: ['romance'] },
           { text: "Anime. Start that series you've heard about.", tags: ['anime'] },
-          { text: "A sports game. Live if possible.", tags: ['sports'] },
         ],
         text: [
-          { text: "YES. Send it. What's the worst that happens?", tags: ['bold'] },
-          { text: "NO. Protect your peace. Keep your dignity.", tags: ['cautious'] },
-          { text: "Wait 24 hours. If you still want to, then send it.", tags: ['cautious'] },
-          { text: "Send it, but keep it short. No essays.", tags: ['moderate'] },
-          { text: "Don't text. Call them instead. Bold move.", tags: ['bold'] },
-          { text: "Send it. Closure is worth more than pride.", tags: ['bold'] },
-          { text: "No. If they wanted to talk, they would.", tags: ['cautious'] },
-          { text: "Yes, but only if you're okay with ANY response—or none.", tags: ['moderate'] },
+          { text: "YES. Send it. What's the worst that happens?", tags: [] },
+          { text: "NO. Protect your peace. Keep your dignity.", tags: [] },
+          { text: "Wait 24 hours. If you still want to, then send it.", tags: [] },
+          { text: "Send it, but keep it short. No essays.", tags: [] },
+          { text: "Don't text. Call them instead. Bold move.", tags: [] },
+          { text: "No. If they wanted to talk, they would.", tags: [] },
         ],
         buy: [
-          { text: "BUY IT. You've thought about it enough.", tags: ['bold'] },
-          { text: "Don't buy it. If you have to ask, you don't need it.", tags: ['frugal'] },
-          { text: "Wait a week. If you still want it, it's yours.", tags: ['cautious'] },
-          { text: "Buy it, but the cheaper version first.", tags: ['moderate'] },
-          { text: "Yes. Treat yourself. You work hard.", tags: ['bold'] },
-          { text: "No. Put that money in savings instead.", tags: ['frugal'] },
-          { text: "Only if it's on sale. Check for a discount code.", tags: ['frugal'] },
-          { text: "Buy it. Life's short. Things bring joy sometimes.", tags: ['bold'] },
+          { text: "BUY IT. You've thought about it enough.", tags: [] },
+          { text: "Don't buy it. If you have to ask, you don't need it.", tags: [] },
+          { text: "Wait a week. If you still want it, it's yours.", tags: [] },
+          { text: "Buy it, but the cheaper version first.", tags: [] },
+          { text: "Yes. Treat yourself. You work hard.", tags: [] },
+          { text: "No. Put that money in savings instead.", tags: [] },
         ],
         workout: [
           { text: "YES. Get up. Move your body. No excuses.", tags: ['intermediate', 'advanced'] },
@@ -533,8 +233,6 @@
           { text: "Full send. Go hard today.", tags: ['advanced'] },
           { text: "Just do 10 minutes. You'll probably keep going.", tags: ['beginner'] },
           { text: "Skip it, but go for a walk instead.", tags: ['beginner', 'rest'] },
-          { text: "Yes, and try something new. Switch it up.", tags: ['intermediate', 'advanced'] },
-          { text: "Absolutely. Future you will be grateful.", tags: ['intermediate', 'advanced'] },
         ],
         sleep: [
           { text: "Go to sleep. Nothing good happens after 2am.", tags: ['earlyBird'] },
@@ -542,28 +240,20 @@
           { text: "One more episode, then BED.", tags: ['flexible'] },
           { text: "Sleep now. Wake up early and crush tomorrow.", tags: ['earlyBird'] },
           { text: "Stay up only if you can sleep in tomorrow.", tags: ['nightOwl', 'flexible'] },
-          { text: "Go to bed. Your under-eye bags are begging you.", tags: ['earlyBird'] },
-          { text: "10 more minutes, then lights out. Final answer.", tags: ['flexible'] },
         ],
         dating: [
-          { text: "GO ON THE DATE. You'll never know if you don't try.", tags: ['bold'] },
-          { text: "Skip it. Trust your gut if it's telling you no.", tags: ['cautious'] },
-          { text: "Go, but keep it short. Coffee, not dinner.", tags: ['moderate'] },
-          { text: "Yes. Even if it's awkward, it's a story.", tags: ['bold'] },
-          { text: "Cancel only if you have a REAL reason. Not fear.", tags: ['moderate'] },
-          { text: "Go. The worst case: a free meal and a tale to tell.", tags: ['bold'] },
-          { text: "Trust the process. Go on the date.", tags: ['moderate'] },
-          { text: "If you're not excited, don't waste either person's time.", tags: ['cautious'] },
+          { text: "GO ON THE DATE. You'll never know if you don't try.", tags: [] },
+          { text: "Skip it. Trust your gut if it's telling you no.", tags: [] },
+          { text: "Go, but keep it short. Coffee, not dinner.", tags: [] },
+          { text: "Yes. Even if it's awkward, it's a story.", tags: [] },
+          { text: "Go. The worst case: a free meal and a tale to tell.", tags: [] },
         ],
         job: [
-          { text: "APPLY. You miss 100% of shots you don't take.", tags: ['bold'] },
-          { text: "Yes. The worst they can say is no.", tags: ['moderate'] },
-          { text: "Apply, even if you're underqualified. Let them decide.", tags: ['bold'] },
-          { text: "Do it. You're ready. Stop doubting yourself.", tags: ['bold'] },
-          { text: "Send that application TODAY. Not tomorrow. Today.", tags: ['bold'] },
-          { text: "Yes, and tailor your resume. Make it count.", tags: ['moderate'] },
-          { text: "Apply. Rejection is redirection.", tags: ['bold'] },
-          { text: "Only if you actually want it. Don't waste their time or yours.", tags: ['cautious'] },
+          { text: "APPLY. You miss 100% of shots you don't take.", tags: [] },
+          { text: "Yes. The worst they can say is no.", tags: [] },
+          { text: "Apply, even if you're underqualified. Let them decide.", tags: [] },
+          { text: "Do it. You're ready. Stop doubting yourself.", tags: [] },
+          { text: "Send that application TODAY. Not tomorrow. Today.", tags: [] },
         ],
       };
 
@@ -581,390 +271,163 @@
         const savedStreak = localStorage.getItem('decideAlreadyStreak');
         const savedRejections = localStorage.getItem('decideAlreadyRejections');
         const lastRerollDate = localStorage.getItem('decideAlreadyRerollDate');
-        
         if (savedStreak) setStreak(parseInt(savedStreak));
         if (savedRejections) setRejectedDecisions(JSON.parse(savedRejections));
-        
         const today = new Date().toDateString();
-        if (lastRerollDate === today) {
-          setRerollUsed(true);
-          setRerollAvailable(false);
-        }
-        
-        if (savedProfile) {
-          setUserProfile(JSON.parse(savedProfile));
-          setPhase('ask');
-        } else {
-          setPhase('onboarding');
-        }
+        if (lastRerollDate === today) setRerollAvailable(false);
+        if (savedProfile) { setUserProfile(JSON.parse(savedProfile)); setPhase('ask'); } else { setPhase('onboarding'); }
       }, []);
 
       const getDecision = () => {
-        let options = decisions[selectedQuestion];
-        
+        let options = [...decisions[selectedQuestion]];
         if (selectedQuestion === 'eat') {
-          options = options.filter(opt => {
-            for (let restriction of userProfile.dietaryRestrictions) {
-              if (opt.restrictions && opt.restrictions.includes(restriction)) return false;
-            }
-            return true;
-          });
-          
-          const favoritedOptions = options.filter(opt => 
-            opt.tags && opt.tags.some(tag => userProfile.favoriteCuisines.includes(tag))
-          );
-          if (favoritedOptions.length > 0 && Math.random() > 0.3) options = favoritedOptions;
+          options = options.filter(opt => !userProfile.dietaryRestrictions.some(r => opt.restrictions?.includes(r)));
+          const favs = options.filter(opt => opt.tags?.some(t => userProfile.favoriteCuisines.includes(t)));
+          if (favs.length > 0 && Math.random() > 0.3) options = favs;
         }
-        
         if (selectedQuestion === 'watch') {
-          options = options.filter(opt => {
-            for (let dislike of userProfile.entertainmentDislikes) {
-              if (opt.tags && opt.tags.includes(dislike)) return false;
-            }
-            return true;
-          });
-          
-          const likedOptions = options.filter(opt =>
-            opt.tags && opt.tags.some(tag => userProfile.entertainmentLikes.includes(tag))
-          );
-          if (likedOptions.length > 0 && Math.random() > 0.3) options = likedOptions;
+          options = options.filter(opt => !userProfile.entertainmentDislikes.some(d => opt.tags?.includes(d)));
+          const liked = options.filter(opt => opt.tags?.some(t => userProfile.entertainmentLikes.includes(t)));
+          if (liked.length > 0 && Math.random() > 0.3) options = liked;
         }
-        
         if (selectedQuestion === 'goOut' && userProfile.personality) {
-          const personalityOptions = options.filter(opt => opt.tags && opt.tags.includes(userProfile.personality));
-          if (personalityOptions.length > 0) options = personalityOptions;
+          const matched = options.filter(opt => opt.tags?.includes(userProfile.personality));
+          if (matched.length > 0) options = matched;
         }
-        
         if (selectedQuestion === 'sleep' && userProfile.chronotype) {
-          const chronoOptions = options.filter(opt => opt.tags && opt.tags.includes(userProfile.chronotype));
-          if (chronoOptions.length > 0) options = chronoOptions;
+          const matched = options.filter(opt => opt.tags?.includes(userProfile.chronotype));
+          if (matched.length > 0) options = matched;
         }
-        
         if (selectedQuestion === 'workout' && userProfile.fitnessLevel) {
-          const fitnessOptions = options.filter(opt => opt.tags && opt.tags.includes(userProfile.fitnessLevel));
-          if (fitnessOptions.length > 0) options = fitnessOptions;
+          const matched = options.filter(opt => opt.tags?.includes(userProfile.fitnessLevel));
+          if (matched.length > 0) options = matched;
         }
-        
-        const categoryRejections = rejectedDecisions.filter(r => r.category === selectedQuestion);
-        options = options.filter(opt => !categoryRejections.some(r => r.decision === opt.text));
-        
+        const rejected = rejectedDecisions.filter(r => r.category === selectedQuestion);
+        options = options.filter(opt => !rejected.some(r => r.decision === opt.text));
         if (options.length === 0) options = decisions[selectedQuestion];
-        
-        const selected = options[Math.floor(Math.random() * options.length)];
-        return typeof selected === 'object' ? selected.text : selected;
+        return options[Math.floor(Math.random() * options.length)].text;
       };
 
-      const handleOnboardingNext = () => {
-        if (onboardingStep < onboardingQuestions.length - 1) {
-          setOnboardingStep(onboardingStep + 1);
-        } else {
-          localStorage.setItem('decideAlreadyProfile', JSON.stringify(userProfile));
-          setPhase('ask');
-        }
-      };
-
-      const handleOnboardingSelect = (field, value, isMulti) => {
-        if (isMulti) {
-          const current = userProfile[field] || [];
-          if (value === 'none') {
-            setUserProfile({ ...userProfile, [field]: [] });
-          } else if (current.includes(value)) {
-            setUserProfile({ ...userProfile, [field]: current.filter(v => v !== value) });
-          } else {
-            setUserProfile({ ...userProfile, [field]: [...current.filter(v => v !== 'none'), value] });
-          }
-        } else {
-          setUserProfile({ ...userProfile, [field]: value });
-        }
-      };
-
-      const handleCommit = () => {
-        if (!selectedQuestion) return;
-        setShakeCard(true);
-        setTimeout(() => setShakeCard(false), 500);
-        setPhase('commit');
-      };
-
-      const handleReveal = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-          setDecision(getDecision());
-          setPhase('reveal');
-          setIsLoading(false);
-        }, 1500);
-      };
-
-      const handleFollowed = () => {
-        const newStreak = streak + 1;
-        setStreak(newStreak);
-        localStorage.setItem('decideAlreadyStreak', newStreak.toString());
-        setShowCelebration(true);
-        setShowConfetti(true);
-        setTimeout(() => {
-          setShowCelebration(false);
-          setShowConfetti(false);
-          resetApp();
-        }, 3000);
-      };
-
-      const handleReroll = () => {
-        if (!rerollAvailable) return;
-        const today = new Date().toDateString();
-        localStorage.setItem('decideAlreadyRerollDate', today);
-        setRerollUsed(true);
-        setRerollAvailable(false);
-        setIsLoading(true);
-        setTimeout(() => {
-          setDecision(getDecision());
-          setIsLoading(false);
-        }, 1500);
-      };
-
+      const handleOnboardingNext = () => { if (onboardingStep < onboardingQuestions.length - 1) { setOnboardingStep(onboardingStep + 1); } else { localStorage.setItem('decideAlreadyProfile', JSON.stringify(userProfile)); setPhase('ask'); } };
+      const handleOnboardingSelect = (field, value, isMulti) => { if (isMulti) { const current = userProfile[field] || []; if (value === 'none') { setUserProfile({ ...userProfile, [field]: [] }); } else if (current.includes(value)) { setUserProfile({ ...userProfile, [field]: current.filter(v => v !== value) }); } else { setUserProfile({ ...userProfile, [field]: [...current.filter(v => v !== 'none'), value] }); } } else { setUserProfile({ ...userProfile, [field]: value }); } };
+      const handleCommit = () => { if (!selectedQuestion) return; setShakeCard(true); setTimeout(() => setShakeCard(false), 500); setPhase('commit'); };
+      const handleReveal = () => { setIsLoading(true); setTimeout(() => { setDecision(getDecision()); setPhase('reveal'); setIsLoading(false); }, 1500); };
+      const handleFollowed = () => { const newStreak = streak + 1; setStreak(newStreak); localStorage.setItem('decideAlreadyStreak', newStreak.toString()); setShowCelebration(true); setShowConfetti(true); setTimeout(() => { setShowCelebration(false); setShowConfetti(false); resetApp(); }, 3000); };
+      const handleReroll = () => { if (!rerollAvailable) return; localStorage.setItem('decideAlreadyRerollDate', new Date().toDateString()); setRerollAvailable(false); setIsLoading(true); setTimeout(() => { setDecision(getDecision()); setIsLoading(false); }, 1500); };
       const handleBroken = () => setShowFeedback(true);
-
-      const handleFeedbackSubmit = () => {
-        const newRejection = { category: selectedQuestion, decision, reason: feedbackReason, timestamp: new Date().toISOString() };
-        const updatedRejections = [...rejectedDecisions, newRejection];
-        setRejectedDecisions(updatedRejections);
-        localStorage.setItem('decideAlreadyRejections', JSON.stringify(updatedRejections));
-        setStreak(0);
-        localStorage.setItem('decideAlreadyStreak', '0');
-        setShowFeedback(false);
-        setFeedbackReason('');
-        resetApp();
-      };
-
-      const handleSkipFeedback = () => {
-        setStreak(0);
-        localStorage.setItem('decideAlreadyStreak', '0');
-        setShowFeedback(false);
-        setFeedbackReason('');
-        resetApp();
-      };
-
-      const resetApp = () => {
-        setSelectedQuestion('');
-        setDecision('');
-        setPhase('ask');
-      };
-
-      const handleShare = () => {
-        const questionLabel = questionOptions.find(q => q.id === selectedQuestion)?.label;
-        const text = `I asked DecideAlready: "${questionLabel}"\n\nThe verdict: ${decision}\n\n🔥 ${streak} decision streak\n\nStop overthinking. Let the app decide.`;
-        if (navigator.share) {
-          navigator.share({ text });
-        } else {
-          navigator.clipboard.writeText(text);
-          alert('Copied to clipboard!');
-        }
-      };
-
+      const handleFeedbackSubmit = () => { const updated = [...rejectedDecisions, { category: selectedQuestion, decision, reason: feedbackReason, timestamp: new Date().toISOString() }]; setRejectedDecisions(updated); localStorage.setItem('decideAlreadyRejections', JSON.stringify(updated)); setStreak(0); localStorage.setItem('decideAlreadyStreak', '0'); setShowFeedback(false); setFeedbackReason(''); resetApp(); };
+      const handleSkipFeedback = () => { setStreak(0); localStorage.setItem('decideAlreadyStreak', '0'); setShowFeedback(false); setFeedbackReason(''); resetApp(); };
+      const resetApp = () => { setSelectedQuestion(''); setDecision(''); setPhase('ask'); };
+      const handleShare = () => { const text = `I asked DecideAlready: "${questionOptions.find(q => q.id === selectedQuestion)?.label}"\n\nThe verdict: ${decision}\n\n⚡ ${streak} decision streak\n\nStop overthinking. Let the app decide.`; if (navigator.share) { navigator.share({ text }); } else { navigator.clipboard.writeText(text); alert('Copied to clipboard!'); } };
       const getSelectedLabel = () => questionOptions.find(q => q.id === selectedQuestion)?.label || '';
+      const resetProfile = () => { localStorage.removeItem('decideAlreadyProfile'); localStorage.removeItem('decideAlreadyRejections'); setUserProfile({ name: '', dietaryRestrictions: [], favoriteCuisines: [], entertainmentLikes: [], entertainmentDislikes: [], personality: '', chronotype: '', fitnessLevel: '' }); setRejectedDecisions([]); setOnboardingStep(0); setPhase('onboarding'); };
 
-      const resetProfile = () => {
-        localStorage.removeItem('decideAlreadyProfile');
-        localStorage.removeItem('decideAlreadyRejections');
-        setUserProfile({ name: '', dietaryRestrictions: [], favoriteCuisines: [], hatedCuisines: [], entertainmentLikes: [], entertainmentDislikes: [], personality: '', chronotype: '', fitnessLevel: '', datingStyle: '' });
-        setRejectedDecisions([]);
-        setOnboardingStep(0);
-        setPhase('onboarding');
-      };
-
-      const styles = {
+      const s = {
         container: { minHeight: '100vh', fontFamily: '"Space Grotesk", sans-serif', color: '#fff', padding: '20px', position: 'relative', overflow: 'hidden' },
-        celebration: { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '48px', fontWeight: '900', color: '#ff6b35', zIndex: 1000, background: 'rgba(0,0,0,0.95)', padding: '40px 60px', borderRadius: '24px', border: '3px solid #ff6b35', textAlign: 'center' },
+        celebration: { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '48px', fontWeight: '900', color: '#f72585', zIndex: 1000, background: 'rgba(13, 0, 21, 0.95)', padding: '40px 60px', borderRadius: '24px', border: '2px solid #f72585', textAlign: 'center' },
         header: { textAlign: 'center', marginBottom: '20px', paddingTop: '20px', position: 'relative', zIndex: 1 },
-        logo: { fontSize: '42px', fontWeight: '900', margin: 0, letterSpacing: '-2px', textTransform: 'uppercase' },
-        logoAccent: { color: '#ff6b35', display: 'block', fontSize: '52px', lineHeight: '1' },
-        tagline: { fontSize: '14px', color: '#888', marginTop: '10px', letterSpacing: '3px', textTransform: 'uppercase' },
+        logo: { fontSize: '42px', fontWeight: '900', margin: 0, letterSpacing: '-2px', textTransform: 'uppercase', color: '#fff' },
+        logoAccent: { color: '#f72585', display: 'block', fontSize: '52px', lineHeight: '1' },
+        tagline: { fontSize: '14px', color: '#4cc9f0', marginTop: '10px', letterSpacing: '3px', textTransform: 'uppercase' },
         progressBar: { width: '100%', maxWidth: '500px', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', margin: '0 auto 30px', overflow: 'hidden' },
         streakContainer: { display: 'flex', justifyContent: 'center', marginBottom: '30px', position: 'relative', zIndex: 1 },
-        streak: { display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255, 107, 53, 0.15)', border: '2px solid rgba(255, 107, 53, 0.4)', borderRadius: '50px', padding: '12px 28px' },
+        streak: { display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(76, 201, 240, 0.1)', border: '2px solid rgba(76, 201, 240, 0.4)', borderRadius: '50px', padding: '12px 28px' },
         streakFire: { fontSize: '28px' },
-        streakNumber: { fontSize: '36px', fontWeight: '900', color: '#ff6b35' },
-        streakLabel: { fontSize: '12px', color: '#888', letterSpacing: '2px' },
+        streakNumber: { fontSize: '36px', fontWeight: '900', color: '#4cc9f0' },
+        streakLabel: { fontSize: '12px', color: '#4cc9f0', letterSpacing: '2px', opacity: 0.8 },
         card: { borderRadius: '24px', padding: '40px 30px', maxWidth: '500px', margin: '0 auto', position: 'relative', zIndex: 1 },
-        label: { fontSize: '12px', letterSpacing: '3px', color: '#888', textAlign: 'center' },
+        label: { fontSize: '12px', letterSpacing: '3px', color: '#4cc9f0', textAlign: 'center', marginBottom: '20px' },
         optionsGrid: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' },
-        optionButton: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 12px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '16px', cursor: 'pointer', fontFamily: 'inherit', color: '#fff' },
-        optionButtonSelected: { background: 'rgba(255, 107, 53, 0.2)', borderColor: '#ff6b35' },
+        optionButton: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 12px', background: 'rgba(247, 37, 133, 0.05)', border: '2px solid rgba(247, 37, 133, 0.2)', borderRadius: '16px', cursor: 'pointer', fontFamily: 'inherit', color: '#fff' },
+        optionButtonSelected: { background: 'rgba(247, 37, 133, 0.2)', borderColor: '#f72585', boxShadow: '0 0 30px rgba(247, 37, 133, 0.3), inset 0 0 30px rgba(247, 37, 133, 0.05)' },
         optionIcon: { fontSize: '32px' },
         optionText: { fontSize: '13px', color: '#fff', textAlign: 'center', lineHeight: '1.3' },
-        button: { padding: '18px 32px', fontSize: '16px', fontWeight: '700', borderRadius: '14px', border: 'none', cursor: 'pointer', letterSpacing: '1px', fontFamily: 'inherit' },
-        buttonPrimary: { background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)', color: '#000' },
+        button: { padding: '18px 32px', fontSize: '16px', fontWeight: '700', borderRadius: '14px', border: 'none', cursor: 'pointer', letterSpacing: '1px', fontFamily: 'inherit', width: '100%' },
+        buttonPrimary: { background: 'linear-gradient(135deg, #f72585 0%, #b5179e 100%)', color: '#fff' },
         buttonDisabled: { opacity: 0.5, cursor: 'not-allowed' },
-        buttonDanger: { background: 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)', color: '#fff' },
-        buttonGhost: { background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#666', fontSize: '14px' },
-        buttonSuccess: { background: 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)', color: '#fff', flex: 1 },
-        buttonFail: { background: 'transparent', border: '2px solid #e74c3c', color: '#e74c3c', flex: 1 },
-        buttonShare: { background: 'rgba(255, 255, 255, 0.1)', color: '#fff', width: '100%', marginTop: '10px' },
-        buttonReroll: { background: 'transparent', border: '2px solid #f39c12', color: '#f39c12', width: '100%', marginTop: '10px' },
-        rerollUsed: { fontSize: '14px', color: '#e74c3c', fontStyle: 'italic', padding: '12px', background: 'rgba(231, 76, 60, 0.1)', borderRadius: '12px', marginTop: '10px', textAlign: 'center' },
-        rerolling: { fontSize: '16px', color: '#f39c12', fontWeight: '700', padding: '15px', marginTop: '10px', textAlign: 'center' },
-        warningIcon: { fontSize: '72px' },
-        commitTitle: { fontSize: '42px', fontWeight: '900', margin: 0, color: '#ff6b35' },
-        commitText: { fontSize: '18px', color: '#ccc', margin: 0, lineHeight: '1.6' },
-        bold: { color: '#fff', fontWeight: '700' },
-        questionPreview: { background: 'rgba(255, 107, 53, 0.1)', border: '1px solid rgba(255, 107, 53, 0.3)', borderRadius: '12px', padding: '15px 20px', fontSize: '16px', fontStyle: 'italic', color: '#ff6b35', margin: '10px 0' },
-        verdictLabel: { fontSize: '12px', letterSpacing: '4px', color: '#888' },
-        decision: { fontSize: '24px', fontWeight: '700', lineHeight: '1.5', color: '#fff', padding: '24px', background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(255, 107, 53, 0.05) 100%)', borderRadius: '16px', border: '2px solid rgba(255, 107, 53, 0.3)' },
-        questionReminder: { fontSize: '14px', color: '#666', fontStyle: 'italic' },
+        buttonDanger: { background: 'linear-gradient(135deg, #7209b7 0%, #3a0ca3 100%)', color: '#fff' },
+        buttonGhost: { background: 'transparent', border: '1px solid rgba(76, 201, 240, 0.3)', color: '#4cc9f0', fontSize: '14px', marginTop: '10px' },
+        buttonSuccess: { background: 'linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%)', color: '#0d0015', flex: 1, fontWeight: '800' },
+        buttonFail: { background: 'transparent', border: '2px solid #f72585', color: '#f72585', flex: 1 },
+        buttonShare: { background: 'rgba(76, 201, 240, 0.1)', border: '1px solid rgba(76, 201, 240, 0.3)', color: '#4cc9f0', marginTop: '10px' },
+        buttonReroll: { background: 'transparent', border: '2px solid #b5179e', color: '#b5179e', marginTop: '10px' },
+        rerollUsed: { fontSize: '14px', color: '#f72585', fontStyle: 'italic', padding: '12px', background: 'rgba(247, 37, 133, 0.1)', borderRadius: '12px', marginTop: '10px', textAlign: 'center' },
+        warningIcon: { fontSize: '72px', textAlign: 'center' },
+        commitTitle: { fontSize: '42px', fontWeight: '900', margin: 0, color: '#f72585', textAlign: 'center' },
+        commitText: { fontSize: '18px', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: '1.6', textAlign: 'center' },
+        bold: { color: '#4cc9f0', fontWeight: '700' },
+        questionPreview: { background: 'rgba(247, 37, 133, 0.1)', border: '1px solid rgba(247, 37, 133, 0.3)', borderRadius: '12px', padding: '15px 20px', fontSize: '16px', fontStyle: 'italic', color: '#f72585', margin: '10px 0', textAlign: 'center' },
+        verdictLabel: { fontSize: '12px', letterSpacing: '4px', color: '#4cc9f0', textAlign: 'center' },
+        decision: { fontSize: '24px', fontWeight: '700', lineHeight: '1.5', color: '#fff', padding: '24px', background: 'linear-gradient(135deg, rgba(247, 37, 133, 0.15) 0%, rgba(76, 201, 240, 0.1) 100%)', borderRadius: '16px', border: '2px solid rgba(247, 37, 133, 0.3)', textAlign: 'center' },
+        questionReminder: { fontSize: '14px', color: 'rgba(76, 201, 240, 0.7)', fontStyle: 'italic', textAlign: 'center' },
         actionButtons: { display: 'flex', gap: '15px', marginTop: '10px' },
         footer: { textAlign: 'center', marginTop: '40px', padding: '20px', position: 'relative', zIndex: 1 },
-        footerText: { fontSize: '14px', color: '#555', fontStyle: 'italic' },
-        resetButton: { marginTop: '15px', background: 'transparent', border: 'none', color: '#444', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit' },
+        footerText: { fontSize: '14px', color: 'rgba(76, 201, 240, 0.5)', fontStyle: 'italic' },
+        resetButton: { marginTop: '15px', background: 'transparent', border: 'none', color: 'rgba(247, 37, 133, 0.5)', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit' },
         onboardingQuestion: { fontSize: '26px', fontWeight: '700', textAlign: 'center', marginBottom: '25px', color: '#fff' },
-        textInput: { width: '100%', padding: '18px 20px', fontSize: '18px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', color: '#fff', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box', transition: 'border-color 0.3s' },
-        onboardingOptions: { display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' },
-        onboardingOption: { padding: '12px 18px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '25px', color: '#fff', fontSize: '14px', cursor: 'pointer', fontFamily: 'inherit' },
-        onboardingOptionsSingle: { display: 'flex', flexDirection: 'column', gap: '10px' },
-        onboardingOptionSingle: { padding: '16px 20px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', color: '#fff', fontSize: '16px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' },
-        onboardingOptionSelected: { background: 'rgba(255, 107, 53, 0.2)', borderColor: '#ff6b35' },
+        textInput: { width: '100%', padding: '18px 20px', fontSize: '18px', background: 'rgba(247, 37, 133, 0.05)', border: '2px solid rgba(247, 37, 133, 0.2)', borderRadius: '14px', color: '#fff', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' },
+        onboardingOptions: { display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '20px' },
+        onboardingOption: { padding: '12px 18px', background: 'rgba(247, 37, 133, 0.05)', border: '2px solid rgba(247, 37, 133, 0.2)', borderRadius: '25px', color: '#fff', fontSize: '14px', cursor: 'pointer', fontFamily: 'inherit' },
+        onboardingOptionsSingle: { display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' },
+        onboardingOptionSingle: { padding: '16px 20px', background: 'rgba(247, 37, 133, 0.05)', border: '2px solid rgba(247, 37, 133, 0.2)', borderRadius: '14px', color: '#fff', fontSize: '16px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' },
+        onboardingOptionSelected: { background: 'rgba(247, 37, 133, 0.2)', borderColor: '#f72585', boxShadow: '0 0 20px rgba(247, 37, 133, 0.3)' },
         feedbackTitle: { fontSize: '26px', fontWeight: '700', textAlign: 'center', marginBottom: '10px', color: '#fff' },
-        feedbackSubtitle: { fontSize: '14px', color: '#888', textAlign: 'center', marginBottom: '20px' },
-        feedbackDecision: { background: 'rgba(231, 76, 60, 0.1)', border: '1px solid rgba(231, 76, 60, 0.3)', borderRadius: '12px', padding: '15px', fontSize: '16px', fontStyle: 'italic', color: '#e74c3c', marginBottom: '20px', textAlign: 'center' },
+        feedbackSubtitle: { fontSize: '14px', color: 'rgba(76, 201, 240, 0.7)', textAlign: 'center', marginBottom: '20px' },
+        feedbackDecision: { background: 'rgba(247, 37, 133, 0.1)', border: '1px solid rgba(247, 37, 133, 0.3)', borderRadius: '12px', padding: '15px', fontSize: '16px', fontStyle: 'italic', color: '#f72585', marginBottom: '20px', textAlign: 'center' },
         feedbackOptions: { display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' },
-        feedbackOption: { padding: '14px 18px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px', color: '#fff', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' },
-        feedbackOptionSelected: { background: 'rgba(231, 76, 60, 0.2)', borderColor: '#e74c3c' },
+        feedbackOption: { padding: '14px 18px', background: 'rgba(247, 37, 133, 0.05)', border: '2px solid rgba(247, 37, 133, 0.2)', borderRadius: '12px', color: '#fff', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' },
+        feedbackOptionSelected: { background: 'rgba(247, 37, 133, 0.2)', borderColor: '#f72585' },
       };
 
-      // ONBOARDING
       if (phase === 'onboarding') {
         const currentQ = onboardingQuestions[onboardingStep];
         return (
-          <div style={styles.container} className="animated-bg">
+          <div style={s.container} className="animated-bg">
             <Particles />
-            <div style={styles.header}>
-              <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent} className="glow-text">ALREADY</span></h1>
-              <p style={styles.tagline}>Let's get to know you</p>
-            </div>
-            <div style={styles.progressBar}>
-              <div className="progress-fill" style={{height: '100%', width: `${((onboardingStep + 1) / onboardingQuestions.length) * 100}%`, borderRadius: '3px'}} />
-            </div>
-            <div style={styles.card} className="glass-card card-enter">
-              <h2 style={styles.onboardingQuestion}>{currentQ.question}</h2>
-              {currentQ.type === 'text' && (
-                <input type="text" style={styles.textInput} placeholder="Enter your name..." value={userProfile[currentQ.field] || ''} onChange={(e) => setUserProfile({...userProfile, [currentQ.field]: e.target.value})} onFocus={(e) => e.target.style.borderColor = '#ff6b35'} onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'} />
-              )}
-              {currentQ.type === 'multiSelect' && (
-                <div style={styles.onboardingOptions}>
-                  {currentQ.options.map(opt => (
-                    <button key={opt.id} className="option-btn" style={{...styles.onboardingOption, ...(userProfile[currentQ.field]?.includes(opt.id) ? styles.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, true)}>{opt.label}</button>
-                  ))}
-                </div>
-              )}
-              {currentQ.type === 'singleSelect' && (
-                <div style={styles.onboardingOptionsSingle}>
-                  {currentQ.options.map(opt => (
-                    <button key={opt.id} className="option-btn" style={{...styles.onboardingOptionSingle, ...(userProfile[currentQ.field] === opt.id ? styles.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, false)}>{opt.label}</button>
-                  ))}
-                </div>
-              )}
-              <button className="btn-hover glow-orange" style={{...styles.button, ...styles.buttonPrimary, marginTop: '20px', width: '100%'}} onClick={handleOnboardingNext}>{onboardingStep < onboardingQuestions.length - 1 ? 'NEXT →' : "LET'S GO 🚀"}</button>
-              {onboardingStep > 0 && (<button className="btn-hover" style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}} onClick={() => setOnboardingStep(onboardingStep - 1)}>← Back</button>)}
+            <div style={s.header}><h1 style={s.logo}>DECIDE<span style={s.logoAccent} className="glow-text neon-flicker">ALREADY</span></h1><p style={s.tagline} className="glow-text-blue">Let's get to know you</p></div>
+            <div style={s.progressBar}><div className="progress-fill" style={{height: '100%', width: `${((onboardingStep + 1) / onboardingQuestions.length) * 100}%`, borderRadius: '3px'}} /></div>
+            <div style={s.card} className="glass-card card-enter">
+              <h2 style={s.onboardingQuestion}>{currentQ.question}</h2>
+              {currentQ.type === 'text' && <input type="text" style={s.textInput} placeholder="Enter your name..." value={userProfile[currentQ.field] || ''} onChange={(e) => setUserProfile({...userProfile, [currentQ.field]: e.target.value})} />}
+              {currentQ.type === 'multiSelect' && <div style={s.onboardingOptions}>{currentQ.options.map(opt => <button key={opt.id} className="option-btn" style={{...s.onboardingOption, ...(userProfile[currentQ.field]?.includes(opt.id) ? s.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, true)}>{opt.label}</button>)}</div>}
+              {currentQ.type === 'singleSelect' && <div style={s.onboardingOptionsSingle}>{currentQ.options.map(opt => <button key={opt.id} className="option-btn" style={{...s.onboardingOptionSingle, ...(userProfile[currentQ.field] === opt.id ? s.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, false)}>{opt.label}</button>)}</div>}
+              <button className="btn-hover glow-pink" style={{...s.button, ...s.buttonPrimary}} onClick={handleOnboardingNext}>{onboardingStep < onboardingQuestions.length - 1 ? 'NEXT →' : "LET'S GO ⚡"}</button>
+              {onboardingStep > 0 && <button className="btn-hover" style={{...s.button, ...s.buttonGhost}} onClick={() => setOnboardingStep(onboardingStep - 1)}>← Back</button>}
             </div>
           </div>
         );
       }
 
-      // FEEDBACK
       if (showFeedback) {
         return (
-          <div style={styles.container} className="animated-bg">
+          <div style={s.container} className="animated-bg">
             <Particles />
-            <div style={styles.header}>
-              <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent} className="glow-text">ALREADY</span></h1>
-            </div>
-            <div style={styles.card} className="glass-card card-enter">
-              <h2 style={styles.feedbackTitle}>Why didn't you do it?</h2>
-              <p style={styles.feedbackSubtitle}>Help me learn so I don't suggest this again</p>
-              <div style={styles.feedbackDecision}>"{decision}"</div>
-              <div style={styles.feedbackOptions}>
-                {feedbackReasons.map(reason => (
-                  <button key={reason.id} className="option-btn" style={{...styles.feedbackOption, ...(feedbackReason === reason.id ? styles.feedbackOptionSelected : {})}} onClick={() => setFeedbackReason(reason.id)}>{reason.label}</button>
-                ))}
-              </div>
-              <button className="btn-hover" style={{...styles.button, ...styles.buttonDanger, width: '100%', ...(feedbackReason ? {} : styles.buttonDisabled)}} onClick={handleFeedbackSubmit} disabled={!feedbackReason}>SUBMIT & RESET STREAK</button>
-              <button className="btn-hover" style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}} onClick={handleSkipFeedback}>Skip (just reset streak)</button>
+            <div style={s.header}><h1 style={s.logo}>DECIDE<span style={s.logoAccent} className="glow-text neon-flicker">ALREADY</span></h1></div>
+            <div style={s.card} className="glass-card card-enter">
+              <h2 style={s.feedbackTitle}>Why didn't you do it?</h2>
+              <p style={s.feedbackSubtitle}>Help me learn so I don't suggest this again</p>
+              <div style={s.feedbackDecision}>"{decision}"</div>
+              <div style={s.feedbackOptions}>{feedbackReasons.map(r => <button key={r.id} className="option-btn" style={{...s.feedbackOption, ...(feedbackReason === r.id ? s.feedbackOptionSelected : {})}} onClick={() => setFeedbackReason(r.id)}>{r.label}</button>)}</div>
+              <button className="btn-hover" style={{...s.button, ...s.buttonDanger, ...(feedbackReason ? {} : s.buttonDisabled)}} onClick={handleFeedbackSubmit} disabled={!feedbackReason}>SUBMIT & RESET STREAK</button>
+              <button className="btn-hover" style={{...s.button, ...s.buttonGhost}} onClick={handleSkipFeedback}>Skip (just reset streak)</button>
             </div>
           </div>
         );
       }
 
-      // MAIN APP
       return (
-        <div style={styles.container} className="animated-bg">
+        <div style={s.container} className="animated-bg">
           <Particles />
           <Confetti active={showConfetti} />
-          {showCelebration && (
-            <div style={styles.celebration} className="celebration-overlay glow-orange">
-              <div style={{fontSize: '64px', marginBottom: '10px'}}>🔥</div>
-              <div className="glow-text">STREAK: {streak}</div>
-              <div style={{fontSize: '18px', color: '#888', marginTop: '10px'}}>You're on fire!</div>
-            </div>
-          )}
-          <div style={styles.header}>
-            <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent} className="glow-text">ALREADY</span></h1>
-            <p style={styles.tagline}>{userProfile.name ? `${userProfile.name}, stop thinking. Start doing.` : 'Stop thinking. Start doing.'}</p>
+          {showCelebration && <div style={s.celebration} className="celebration-overlay glow-pink"><div style={{fontSize: '64px', marginBottom: '10px'}}>⚡</div><div className="glow-text">STREAK: {streak}</div><div style={{fontSize: '18px', color: '#4cc9f0', marginTop: '10px'}}>You're electric!</div></div>}
+          <div style={s.header}><h1 style={s.logo}>DECIDE<span style={s.logoAccent} className="glow-text neon-flicker">ALREADY</span></h1><p style={s.tagline} className="glow-text-blue">{userProfile.name ? `${userProfile.name}, stop thinking. Start doing.` : 'Stop thinking. Start doing.'}</p></div>
+          <div style={s.streakContainer}><div style={s.streak} className="streak-glow"><span style={s.streakFire} className={streak > 0 ? 'bounce' : ''}>⚡</span><span style={s.streakNumber}>{streak}</span><span style={s.streakLabel}>STREAK</span></div></div>
+          <div style={s.card} className={`glass-card card-enter ${shakeCard ? 'shake' : ''}`}>
+            {phase === 'ask' && <div><div style={s.label}>WHAT CAN'T YOU DECIDE?</div><div style={s.optionsGrid}>{questionOptions.map(opt => <button key={opt.id} className="option-btn" style={{...s.optionButton, ...(selectedQuestion === opt.id ? s.optionButtonSelected : {})}} onClick={() => setSelectedQuestion(opt.id)}><span style={s.optionIcon} className={selectedQuestion === opt.id ? 'bounce' : ''}>{opt.icon}</span><span style={s.optionText}>{opt.label}</span></button>)}</div><button className={`btn-hover ${selectedQuestion ? 'glow-pink' : ''}`} style={{...s.button, ...s.buttonPrimary, marginTop: '20px', ...(selectedQuestion ? {} : s.buttonDisabled)}} onClick={handleCommit} disabled={!selectedQuestion}>I NEED AN ANSWER</button></div>}
+            {phase === 'commit' && <div><div style={s.warningIcon} className="warning-pulse">⚠️</div><h2 style={s.commitTitle} className="glow-text">WAIT.</h2><p style={s.commitText}>Once you see the answer, you <span style={s.bold}>MUST</span> do it.</p><p style={s.commitText}>No backing out. No excuses. No "but actually..."</p><div style={s.questionPreview}>"{getSelectedLabel()}"</div><button className="btn-hover glow-pink" style={{...s.button, ...s.buttonDanger}} onClick={handleReveal} disabled={isLoading}>{isLoading ? '✨ DECIDING YOUR FATE...' : 'I COMMIT. SHOW ME.'}</button><button className="btn-hover" style={{...s.button, ...s.buttonGhost}} onClick={resetApp}>I'm not ready (coward)</button></div>}
+            {phase === 'reveal' && <div><div style={s.verdictLabel}>✨ THE VERDICT ✨</div><div style={s.decision} className="reveal-text animated-border">{decision}</div><div style={s.questionReminder}>You asked: "{getSelectedLabel()}"</div>{rerollAvailable && !isLoading && <button className="btn-hover" style={{...s.button, ...s.buttonReroll}} onClick={handleReroll}>🎲 DECIDE AGAIN (1 per day)</button>}{!rerollAvailable && <div style={s.rerollUsed}>No more re-rolls today. Commit or fail.</div>}{isLoading && <div style={{...s.rerollUsed, color: '#b5179e'}} className="pulse">🎲 RE-DECIDING YOUR FATE...</div>}<div style={s.actionButtons}><button className="btn-hover glow-blue" style={{...s.button, ...s.buttonSuccess}} onClick={handleFollowed}>⚡ I DID IT</button><button className="btn-hover" style={{...s.button, ...s.buttonFail}} onClick={handleBroken}>✗ I FAILED</button></div><button className="btn-hover" style={{...s.button, ...s.buttonShare}} onClick={handleShare}>📤 SHARE MY DECISION</button></div>}
           </div>
-          <div style={styles.streakContainer}>
-            <div style={styles.streak} className="streak-glow">
-              <span style={styles.streakFire} className={streak > 0 ? 'bounce' : ''}>🔥</span>
-              <span style={styles.streakNumber}>{streak}</span>
-              <span style={styles.streakLabel}>STREAK</span>
-            </div>
-          </div>
-          <div style={styles.card} className={`glass-card card-enter ${shakeCard ? 'shake' : ''}`}>
-            {phase === 'ask' && (
-              <div style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
-                <label style={styles.label}>WHAT CAN'T YOU DECIDE?</label>
-                <div style={styles.optionsGrid}>
-                  {questionOptions.map((option) => (
-                    <button key={option.id} className="option-btn" style={{...styles.optionButton, ...(selectedQuestion === option.id ? styles.optionButtonSelected : {})}} onClick={() => setSelectedQuestion(option.id)}>
-                      <span style={styles.optionIcon} className={selectedQuestion === option.id ? 'bounce' : ''}>{option.icon}</span>
-                      <span style={styles.optionText}>{option.label}</span>
-                    </button>
-                  ))}
-                </div>
-                <button className={`btn-hover ${selectedQuestion ? 'glow-orange' : ''}`} style={{...styles.button, ...styles.buttonPrimary, width: '100%', ...(selectedQuestion ? {} : styles.buttonDisabled)}} onClick={handleCommit} disabled={!selectedQuestion}>I NEED AN ANSWER</button>
-              </div>
-            )}
-            {phase === 'commit' && (
-              <div style={{textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '15px'}}>
-                <div style={styles.warningIcon} className="warning-pulse">⚠️</div>
-                <h2 style={styles.commitTitle} className="glow-text">WAIT.</h2>
-                <p style={styles.commitText}>Once you see the answer, you <span style={styles.bold}>MUST</span> do it.</p>
-                <p style={styles.commitText}>No backing out. No excuses. No "but actually..."</p>
-                <div style={styles.questionPreview}>"{getSelectedLabel()}"</div>
-                <button className="btn-hover" style={{...styles.button, ...styles.buttonDanger, width: '100%'}} onClick={handleReveal} disabled={isLoading}>{isLoading ? '✨ DECIDING YOUR FATE...' : 'I COMMIT. SHOW ME.'}</button>
-                <button className="btn-hover" style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}} onClick={resetApp}>I'm not ready (coward)</button>
-              </div>
-            )}
-            {phase === 'reveal' && (
-              <div style={{textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '15px'}}>
-                <div style={styles.verdictLabel}>✨ THE VERDICT ✨</div>
-                <div style={styles.decision} className="reveal-text animated-border">{decision}</div>
-                <div style={styles.questionReminder}>You asked: "{getSelectedLabel()}"</div>
-                {rerollAvailable && !isLoading && (<button className="btn-hover" style={{...styles.button, ...styles.buttonReroll}} onClick={handleReroll}>🎲 DECIDE AGAIN (1 per day)</button>)}
-                {!rerollAvailable && (<div style={styles.rerollUsed}>No more re-rolls today. Commit or fail.</div>)}
-                {isLoading && (<div style={styles.rerolling} className="pulse">🎲 RE-DECIDING YOUR FATE...</div>)}
-                <div style={styles.actionButtons}>
-                  <button className="btn-hover" style={{...styles.button, ...styles.buttonSuccess}} onClick={handleFollowed}>✓ I DID IT</button>
-                  <button className="btn-hover" style={{...styles.button, ...styles.buttonFail}} onClick={handleBroken}>✗ I FAILED</button>
-                </div>
-                <button className="btn-hover" style={{...styles.button, ...styles.buttonShare}} onClick={handleShare}>📤 SHARE MY DECISION</button>
-              </div>
-            )}
-          </div>
-          <div style={styles.footer}>
-            <p style={styles.footerText}>
-              {streak === 0 && "Make your first decision. Build your streak."}
-              {streak > 0 && streak < 5 && "You're building momentum. Keep going."}
-              {streak >= 5 && streak < 10 && "You're a decision machine now."}
-              {streak >= 10 && "🔥 UNSTOPPABLE. You've mastered your mind. 🔥"}
-            </p>
-            <button style={styles.resetButton} onClick={resetProfile}>Reset Profile</button>
-          </div>
+          <div style={s.footer}><p style={s.footerText}>{streak === 0 && "Make your first decision. Build your streak."}{streak > 0 && streak < 5 && "You're building momentum. Keep going."}{streak >= 5 && streak < 10 && "You're a decision machine now."}{streak >= 10 && "⚡ UNSTOPPABLE. You've mastered your mind. ⚡"}</p><button style={s.resetButton} onClick={resetProfile}>Reset Profile</button></div>
         </div>
       );
     };

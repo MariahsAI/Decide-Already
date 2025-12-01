@@ -133,7 +133,6 @@
       );
     };
 
-    // AI Loading Component
     const AIThinking = () => (
       <div style={{ textAlign: 'center', padding: '40px 20px' }}>
         <div style={{ fontSize: '48px', marginBottom: '20px' }} className="ai-thinking">🧠</div>
@@ -162,6 +161,9 @@
       const [onboardingStep, setOnboardingStep] = useState(0);
       const [shakeCard, setShakeCard] = useState(false);
       const [aiError, setAiError] = useState('');
+      const [showProfile, setShowProfile] = useState(false);
+      const [newFactKey, setNewFactKey] = useState('');
+      const [newFactValue, setNewFactValue] = useState('');
       const [userProfile, setUserProfile] = useState({ 
         name: '', 
         dietaryRestrictions: [], 
@@ -171,13 +173,32 @@
         personality: '', 
         chronotype: '', 
         fitnessLevel: '',
-        mood: '',
         budget: '',
+        personalFacts: [], // Array of {key, value} - e.g., {key: "Best friend", value: "Sarah"}
       });
-      const [decisionHistory, setDecisionHistory] = useState([]); // Accepted decisions
+      const [decisionHistory, setDecisionHistory] = useState([]);
       const [rejectedDecisions, setRejectedDecisions] = useState([]);
       const [showFeedback, setShowFeedback] = useState(false);
       const [feedbackReason, setFeedbackReason] = useState('');
+
+      // Suggested facts for easy adding
+      const suggestedFacts = [
+        { key: 'Best friend', placeholder: "Sarah" },
+        { key: 'Partner/SO', placeholder: "Alex" },
+        { key: 'Pet', placeholder: "Dog named Max" },
+        { key: 'Favorite restaurant', placeholder: "Olive Garden" },
+        { key: 'Favorite movie', placeholder: "The Matrix" },
+        { key: 'Current job', placeholder: "Software engineer" },
+        { key: 'City', placeholder: "New York" },
+        { key: 'Hobby', placeholder: "Playing guitar" },
+        { key: 'Gym/workout spot', placeholder: "Planet Fitness" },
+        { key: 'Favorite drink', placeholder: "Iced coffee" },
+        { key: 'Go-to comfort food', placeholder: "Mac and cheese" },
+        { key: 'Current crush', placeholder: "That person from work" },
+        { key: 'Therapist says I should', placeholder: "Set better boundaries" },
+        { key: 'Life goal', placeholder: "Travel to Japan" },
+        { key: 'Biggest fear', placeholder: "Public speaking" },
+      ];
 
       const questionOptions = [
         { id: 'eat', label: 'What should I eat?', icon: '🍕' },
@@ -203,6 +224,7 @@
         { id: 'chronotype', question: "When are you at your best?", type: 'singleSelect', field: 'chronotype', options: [{ id: 'earlyBird', label: '🌅 Early Bird - Morning person' }, { id: 'nightOwl', label: '🦉 Night Owl - Late night energy' }, { id: 'flexible', label: '🔄 Flexible - Whenever' }] },
         { id: 'fitness', question: "Fitness level?", type: 'singleSelect', field: 'fitnessLevel', options: [{ id: 'beginner', label: '🌱 Just starting out' }, { id: 'intermediate', label: '💪 Regular exerciser' }, { id: 'advanced', label: '🏆 Fitness enthusiast' }, { id: 'rest', label: '😴 Currently on a break' }] },
         { id: 'budget', question: "Typical spending vibe?", type: 'singleSelect', field: 'budget', options: [{ id: 'frugal', label: '💰 Frugal - Save where I can' }, { id: 'moderate', label: '⚖️ Moderate - Balance is key' }, { id: 'splurge', label: '💸 Treat yourself - Life is short' }] },
+        { id: 'personalFacts', question: "Tell me about your life!", type: 'personalFacts', field: 'personalFacts' },
       ];
 
       const feedbackReasons = [
@@ -226,18 +248,55 @@
         if (savedHistory) setDecisionHistory(JSON.parse(savedHistory));
         const today = new Date().toDateString();
         if (lastRerollDate === today) setRerollAvailable(false);
-        if (savedProfile) { setUserProfile(JSON.parse(savedProfile)); setPhase('ask'); } else { setPhase('onboarding'); }
+        if (savedProfile) { 
+          const profile = JSON.parse(savedProfile);
+          // Ensure personalFacts exists for older profiles
+          if (!profile.personalFacts) profile.personalFacts = [];
+          setUserProfile(profile); 
+          setPhase('ask'); 
+        } else { 
+          setPhase('onboarding'); 
+        }
       }, []);
 
-      // AI Decision Generator using Claude API
+      const addPersonalFact = (key, value) => {
+        if (!key.trim() || !value.trim()) return;
+        const existingIndex = userProfile.personalFacts.findIndex(f => f.key.toLowerCase() === key.toLowerCase());
+        let newFacts;
+        if (existingIndex >= 0) {
+          // Update existing
+          newFacts = [...userProfile.personalFacts];
+          newFacts[existingIndex] = { key, value };
+        } else {
+          // Add new
+          newFacts = [...userProfile.personalFacts, { key, value }];
+        }
+        const newProfile = { ...userProfile, personalFacts: newFacts };
+        setUserProfile(newProfile);
+        localStorage.setItem('decideAlreadyProfile', JSON.stringify(newProfile));
+        setNewFactKey('');
+        setNewFactValue('');
+      };
+
+      const removePersonalFact = (key) => {
+        const newFacts = userProfile.personalFacts.filter(f => f.key !== key);
+        const newProfile = { ...userProfile, personalFacts: newFacts };
+        setUserProfile(newProfile);
+        localStorage.setItem('decideAlreadyProfile', JSON.stringify(newProfile));
+      };
+
       const getAIDecision = async (questionType, questionLabel) => {
         const currentHour = new Date().getHours();
         const timeOfDay = currentHour < 12 ? 'morning' : currentHour < 17 ? 'afternoon' : currentHour < 21 ? 'evening' : 'late night';
         const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][new Date().getDay()];
         
-        // Get recent history for this category
         const categoryHistory = decisionHistory.filter(h => h.category === questionType).slice(-5);
         const categoryRejections = rejectedDecisions.filter(r => r.category === questionType).slice(-5);
+        
+        // Format personal facts for the prompt
+        const personalFactsText = userProfile.personalFacts?.length 
+          ? userProfile.personalFacts.map(f => `- ${f.key}: ${f.value}`).join('\n')
+          : 'None provided yet';
         
         const prompt = `You are DecideAlready, a bold, no-nonsense decision-making AI. Your job is to give ONE clear, specific, actionable decision. No hedging. No "it depends." Just tell them what to do.
 
@@ -251,6 +310,9 @@ ${userProfile.dietaryRestrictions?.length ? `- Dietary restrictions: ${userProfi
 ${userProfile.favoriteCuisines?.length ? `- Favorite cuisines: ${userProfile.favoriteCuisines.join(', ')}` : ''}
 ${userProfile.entertainmentLikes?.length ? `- Entertainment likes: ${userProfile.entertainmentLikes.join(', ')}` : ''}
 ${userProfile.entertainmentDislikes?.length ? `- Entertainment dislikes: ${userProfile.entertainmentDislikes.join(', ')}` : ''}
+
+PERSONAL FACTS ABOUT THIS USER:
+${personalFactsText}
 
 CONTEXT:
 - Current time: ${timeOfDay} on ${dayOfWeek}
@@ -266,10 +328,11 @@ RULES:
 2. Be direct and confident - no "maybe" or "perhaps"
 3. Keep it to 1-2 sentences max
 4. Add a tiny bit of personality/humor
-5. Consider their profile, time of day, and past rejections
+5. Consider their profile, personal facts, time of day, and past rejections
 6. NEVER suggest something they've already rejected
-7. If they've been accepting similar things, maybe suggest something slightly different
+7. USE their personal facts when relevant! If they ask about texting someone, reference their best friend or crush. If they ask about food, reference their favorite restaurant.
 8. Match their energy (introvert = calmer suggestions, extrovert = bolder)
+9. Be specific - use names, places, and details from their profile when it makes sense
 
 Respond with ONLY the decision text. No quotes, no "I think", just the decision.`;
 
@@ -284,10 +347,7 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
             })
           });
 
-          if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
-          }
-
+          if (!response.ok) throw new Error(`API error: ${response.status}`);
           const data = await response.json();
           return data.content[0].text.trim();
         } catch (error) {
@@ -331,12 +391,8 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
       const handleReveal = async () => { 
         setIsLoading(true);
         setAiError('');
-        
         try {
-          const questionLabel = selectedQuestion === 'custom' 
-            ? customQuestion 
-            : questionOptions.find(q => q.id === selectedQuestion)?.label;
-          
+          const questionLabel = selectedQuestion === 'custom' ? customQuestion : questionOptions.find(q => q.id === selectedQuestion)?.label;
           const aiDecision = await getAIDecision(selectedQuestion, questionLabel);
           setDecision(aiDecision);
           setPhase('reveal');
@@ -352,25 +408,18 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
         const newStreak = streak + 1; 
         setStreak(newStreak); 
         localStorage.setItem('decideAlreadyStreak', newStreak.toString());
-        
-        // Save to decision history
         const newHistory = [...decisionHistory, {
           category: selectedQuestion,
           question: selectedQuestion === 'custom' ? customQuestion : getSelectedLabel(),
           decision,
           timestamp: new Date().toISOString(),
           followed: true
-        }].slice(-50); // Keep last 50
+        }].slice(-50);
         setDecisionHistory(newHistory);
         localStorage.setItem('decideAlreadyHistory', JSON.stringify(newHistory));
-        
         setShowCelebration(true); 
         setShowConfetti(true); 
-        setTimeout(() => { 
-          setShowCelebration(false); 
-          setShowConfetti(false); 
-          resetApp(); 
-        }, 3000); 
+        setTimeout(() => { setShowCelebration(false); setShowConfetti(false); resetApp(); }, 3000); 
       };
       
       const handleReroll = async () => { 
@@ -379,12 +428,8 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
         setRerollAvailable(false); 
         setIsLoading(true);
         setAiError('');
-        
         try {
-          const questionLabel = selectedQuestion === 'custom' 
-            ? customQuestion 
-            : questionOptions.find(q => q.id === selectedQuestion)?.label;
-          
+          const questionLabel = selectedQuestion === 'custom' ? customQuestion : questionOptions.find(q => q.id === selectedQuestion)?.label;
           const aiDecision = await getAIDecision(selectedQuestion, questionLabel);
           setDecision(aiDecision);
         } catch (error) {
@@ -403,7 +448,7 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
           decision, 
           reason: feedbackReason, 
           timestamp: new Date().toISOString() 
-        }].slice(-30); // Keep last 30 rejections
+        }].slice(-30);
         setRejectedDecisions(updated); 
         localStorage.setItem('decideAlreadyRejections', JSON.stringify(updated)); 
         setStreak(0); 
@@ -444,7 +489,7 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
         localStorage.removeItem('decideAlreadyProfile'); 
         localStorage.removeItem('decideAlreadyRejections');
         localStorage.removeItem('decideAlreadyHistory');
-        setUserProfile({ name: '', dietaryRestrictions: [], favoriteCuisines: [], entertainmentLikes: [], entertainmentDislikes: [], personality: '', chronotype: '', fitnessLevel: '', budget: '' }); 
+        setUserProfile({ name: '', dietaryRestrictions: [], favoriteCuisines: [], entertainmentLikes: [], entertainmentDislikes: [], personality: '', chronotype: '', fitnessLevel: '', budget: '', personalFacts: [] }); 
         setRejectedDecisions([]); 
         setDecisionHistory([]);
         setOnboardingStep(0); 
@@ -460,8 +505,9 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
         tagline: { fontSize: '14px', color: '#4cc9f0', marginTop: '10px', letterSpacing: '3px', textTransform: 'uppercase' },
         aiBadge: { display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'linear-gradient(135deg, rgba(247, 37, 133, 0.2), rgba(76, 201, 240, 0.2))', border: '1px solid rgba(247, 37, 133, 0.3)', borderRadius: '20px', padding: '6px 14px', fontSize: '11px', letterSpacing: '2px', color: '#4cc9f0', marginTop: '10px' },
         progressBar: { width: '100%', maxWidth: '500px', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', margin: '0 auto 30px', overflow: 'hidden' },
-        streakContainer: { display: 'flex', justifyContent: 'center', marginBottom: '30px', position: 'relative', zIndex: 1 },
+        streakContainer: { display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '30px', position: 'relative', zIndex: 1, flexWrap: 'wrap' },
         streak: { display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(76, 201, 240, 0.1)', border: '2px solid rgba(76, 201, 240, 0.4)', borderRadius: '50px', padding: '12px 28px' },
+        profileBtn: { display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(247, 37, 133, 0.1)', border: '2px solid rgba(247, 37, 133, 0.4)', borderRadius: '50px', padding: '12px 20px', cursor: 'pointer', fontSize: '14px', color: '#f72585', fontFamily: 'inherit' },
         streakFire: { fontSize: '28px' },
         streakNumber: { fontSize: '36px', fontWeight: '900', color: '#4cc9f0' },
         streakLabel: { fontSize: '12px', color: '#4cc9f0', letterSpacing: '2px', opacity: 0.8 },
@@ -511,8 +557,27 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
         feedbackOptionSelected: { background: 'rgba(247, 37, 133, 0.2)', borderColor: '#f72585' },
         errorText: { color: '#f72585', fontSize: '14px', textAlign: 'center', padding: '10px', background: 'rgba(247, 37, 133, 0.1)', borderRadius: '8px', marginTop: '10px' },
         statsContainer: { display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '15px', fontSize: '12px', color: 'rgba(76, 201, 240, 0.6)' },
+        // Personal Facts styles
+        factsContainer: { marginTop: '20px' },
+        factsList: { display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px', maxHeight: '200px', overflowY: 'auto' },
+        factItem: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(76, 201, 240, 0.1)', borderRadius: '10px', padding: '10px 15px' },
+        factText: { fontSize: '14px', color: '#fff' },
+        factKey: { color: '#4cc9f0', fontWeight: '700' },
+        factValue: { color: '#fff' },
+        factRemove: { background: 'none', border: 'none', color: '#f72585', cursor: 'pointer', fontSize: '18px', padding: '0 5px' },
+        addFactContainer: { display: 'flex', flexDirection: 'column', gap: '10px' },
+        addFactRow: { display: 'flex', gap: '10px' },
+        factInput: { flex: 1, padding: '12px 15px', fontSize: '14px', background: 'rgba(247, 37, 133, 0.05)', border: '2px solid rgba(247, 37, 133, 0.2)', borderRadius: '10px', color: '#fff', outline: 'none', fontFamily: 'inherit' },
+        addFactBtn: { padding: '12px 20px', background: 'linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%)', border: 'none', borderRadius: '10px', color: '#0d0015', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' },
+        suggestedFacts: { display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '15px' },
+        suggestedFactBtn: { padding: '8px 14px', background: 'rgba(247, 37, 133, 0.1)', border: '1px solid rgba(247, 37, 133, 0.3)', borderRadius: '20px', color: '#f72585', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' },
+        profileOverlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' },
+        profileCard: { background: 'rgba(20, 10, 40, 0.95)', borderRadius: '24px', padding: '30px', maxWidth: '500px', width: '100%', maxHeight: '80vh', overflowY: 'auto', border: '1px solid rgba(247, 37, 133, 0.3)' },
+        profileTitle: { fontSize: '24px', fontWeight: '700', color: '#fff', marginBottom: '20px', textAlign: 'center' },
+        closeBtn: { position: 'absolute', top: '15px', right: '15px', background: 'none', border: 'none', color: '#f72585', fontSize: '24px', cursor: 'pointer' },
       };
 
+      // ONBOARDING
       if (phase === 'onboarding') {
         const currentQ = onboardingQuestions[onboardingStep];
         return (
@@ -526,16 +591,73 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
             <div style={s.progressBar}><div className="progress-fill" style={{height: '100%', width: `${((onboardingStep + 1) / onboardingQuestions.length) * 100}%`, borderRadius: '3px'}} /></div>
             <div style={s.card} className="glass-card card-enter">
               <h2 style={s.onboardingQuestion}>{currentQ.question}</h2>
-              {currentQ.type === 'text' && <input type="text" style={s.textInput} placeholder="Enter your name..." value={userProfile[currentQ.field] || ''} onChange={(e) => setUserProfile({...userProfile, [currentQ.field]: e.target.value})} />}
-              {currentQ.type === 'multiSelect' && <div style={s.onboardingOptions}>{currentQ.options.map(opt => <button key={opt.id} className="option-btn" style={{...s.onboardingOption, ...(userProfile[currentQ.field]?.includes(opt.id) ? s.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, true)}>{opt.label}</button>)}</div>}
-              {currentQ.type === 'singleSelect' && <div style={s.onboardingOptionsSingle}>{currentQ.options.map(opt => <button key={opt.id} className="option-btn" style={{...s.onboardingOptionSingle, ...(userProfile[currentQ.field] === opt.id ? s.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, false)}>{opt.label}</button>)}</div>}
-              <button className="btn-hover glow-pink" style={{...s.button, ...s.buttonPrimary}} onClick={handleOnboardingNext}>{onboardingStep < onboardingQuestions.length - 1 ? 'NEXT →' : "LET'S GO ⚡"}</button>
+              
+              {currentQ.type === 'text' && (
+                <input type="text" style={s.textInput} placeholder="Enter your name..." value={userProfile[currentQ.field] || ''} onChange={(e) => setUserProfile({...userProfile, [currentQ.field]: e.target.value})} />
+              )}
+              
+              {currentQ.type === 'multiSelect' && (
+                <div style={s.onboardingOptions}>
+                  {currentQ.options.map(opt => (
+                    <button key={opt.id} className="option-btn" style={{...s.onboardingOption, ...(userProfile[currentQ.field]?.includes(opt.id) ? s.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, true)}>{opt.label}</button>
+                  ))}
+                </div>
+              )}
+              
+              {currentQ.type === 'singleSelect' && (
+                <div style={s.onboardingOptionsSingle}>
+                  {currentQ.options.map(opt => (
+                    <button key={opt.id} className="option-btn" style={{...s.onboardingOptionSingle, ...(userProfile[currentQ.field] === opt.id ? s.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, false)}>{opt.label}</button>
+                  ))}
+                </div>
+              )}
+              
+              {currentQ.type === 'personalFacts' && (
+                <div style={s.factsContainer}>
+                  <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.7)', textAlign: 'center', marginBottom: '20px'}}>
+                    Add facts about your life so the AI can give personalized decisions! (You can always add more later)
+                  </p>
+                  
+                  {userProfile.personalFacts?.length > 0 && (
+                    <div style={s.factsList}>
+                      {userProfile.personalFacts.map((fact, i) => (
+                        <div key={i} style={s.factItem}>
+                          <span style={s.factText}><span style={s.factKey}>{fact.key}:</span> {fact.value}</span>
+                          <button style={s.factRemove} onClick={() => removePersonalFact(fact.key)}>×</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <div style={s.addFactContainer}>
+                    <div style={s.addFactRow}>
+                      <input style={s.factInput} placeholder="e.g., Best friend" value={newFactKey} onChange={(e) => setNewFactKey(e.target.value)} />
+                      <input style={{...s.factInput, flex: 1.5}} placeholder="e.g., Sarah" value={newFactValue} onChange={(e) => setNewFactValue(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && addPersonalFact(newFactKey, newFactValue)} />
+                    </div>
+                    <button style={s.addFactBtn} onClick={() => addPersonalFact(newFactKey, newFactValue)}>+ ADD FACT</button>
+                  </div>
+                  
+                  <div style={{marginTop: '20px'}}>
+                    <p style={{fontSize: '12px', color: '#4cc9f0', marginBottom: '10px'}}>Quick add:</p>
+                    <div style={s.suggestedFacts}>
+                      {suggestedFacts.filter(sf => !userProfile.personalFacts?.some(f => f.key === sf.key)).slice(0, 8).map(sf => (
+                        <button key={sf.key} style={s.suggestedFactBtn} onClick={() => setNewFactKey(sf.key)}>+ {sf.key}</button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              <button className="btn-hover glow-pink" style={{...s.button, ...s.buttonPrimary, marginTop: '20px'}} onClick={handleOnboardingNext}>
+                {onboardingStep < onboardingQuestions.length - 1 ? 'NEXT →' : "LET'S GO ⚡"}
+              </button>
               {onboardingStep > 0 && <button className="btn-hover" style={{...s.button, ...s.buttonGhost}} onClick={() => setOnboardingStep(onboardingStep - 1)}>← Back</button>}
             </div>
           </div>
         );
       }
 
+      // FEEDBACK
       if (showFeedback) {
         return (
           <div style={s.container} className="animated-bg">
@@ -553,17 +675,76 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
         );
       }
 
+      // PROFILE MODAL
+      const ProfileModal = () => (
+        <div style={s.profileOverlay} onClick={() => setShowProfile(false)}>
+          <div style={s.profileCard} onClick={e => e.stopPropagation()} className="card-enter">
+            <h2 style={s.profileTitle}>🧠 Your AI Memory</h2>
+            
+            <div style={{marginBottom: '20px'}}>
+              <p style={{fontSize: '14px', color: '#4cc9f0', marginBottom: '10px'}}>Personal Facts ({userProfile.personalFacts?.length || 0})</p>
+              {userProfile.personalFacts?.length > 0 ? (
+                <div style={s.factsList}>
+                  {userProfile.personalFacts.map((fact, i) => (
+                    <div key={i} style={s.factItem}>
+                      <span style={s.factText}><span style={s.factKey}>{fact.key}:</span> {fact.value}</span>
+                      <button style={s.factRemove} onClick={() => removePersonalFact(fact.key)}>×</button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.5)', fontStyle: 'italic'}}>No facts added yet</p>
+              )}
+            </div>
+            
+            <div style={s.addFactContainer}>
+              <p style={{fontSize: '12px', color: '#4cc9f0', marginBottom: '10px'}}>Add new fact:</p>
+              <div style={s.addFactRow}>
+                <input style={s.factInput} placeholder="e.g., Crush" value={newFactKey} onChange={(e) => setNewFactKey(e.target.value)} />
+                <input style={{...s.factInput, flex: 1.5}} placeholder="e.g., That barista at Starbucks" value={newFactValue} onChange={(e) => setNewFactValue(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && addPersonalFact(newFactKey, newFactValue)} />
+              </div>
+              <button style={s.addFactBtn} onClick={() => addPersonalFact(newFactKey, newFactValue)}>+ ADD FACT</button>
+            </div>
+            
+            <div style={{marginTop: '20px'}}>
+              <p style={{fontSize: '12px', color: '#4cc9f0', marginBottom: '10px'}}>Suggestions:</p>
+              <div style={s.suggestedFacts}>
+                {suggestedFacts.filter(sf => !userProfile.personalFacts?.some(f => f.key === sf.key)).slice(0, 10).map(sf => (
+                  <button key={sf.key} style={s.suggestedFactBtn} onClick={() => setNewFactKey(sf.key)}>+ {sf.key}</button>
+                ))}
+              </div>
+            </div>
+            
+            <button className="btn-hover" style={{...s.button, ...s.buttonGhost, marginTop: '20px'}} onClick={() => setShowProfile(false)}>Close</button>
+          </div>
+        </div>
+      );
+
+      // MAIN APP
       return (
         <div style={s.container} className="animated-bg">
           <Particles />
           <Confetti active={showConfetti} />
+          {showProfile && <ProfileModal />}
           {showCelebration && <div style={s.celebration} className="celebration-overlay glow-pink"><div style={{fontSize: '64px', marginBottom: '10px'}}>⚡</div><div className="glow-text">STREAK: {streak}</div><div style={{fontSize: '18px', color: '#4cc9f0', marginTop: '10px'}}>You're electric!</div></div>}
+          
           <div style={s.header}>
             <h1 style={s.logo}>DECIDE<span style={s.logoAccent} className="glow-text neon-flicker">ALREADY</span></h1>
             <div style={s.aiBadge}>🧠 AI-POWERED</div>
             <p style={s.tagline} className="glow-text-blue">{userProfile.name ? `${userProfile.name}, stop thinking. Start doing.` : 'Stop thinking. Start doing.'}</p>
           </div>
-          <div style={s.streakContainer}><div style={s.streak} className="streak-glow"><span style={s.streakFire} className={streak > 0 ? 'bounce' : ''}>⚡</span><span style={s.streakNumber}>{streak}</span><span style={s.streakLabel}>STREAK</span></div></div>
+          
+          <div style={s.streakContainer}>
+            <div style={s.streak} className="streak-glow">
+              <span style={s.streakFire} className={streak > 0 ? 'bounce' : ''}>⚡</span>
+              <span style={s.streakNumber}>{streak}</span>
+              <span style={s.streakLabel}>STREAK</span>
+            </div>
+            <button style={s.profileBtn} onClick={() => setShowProfile(true)} className="btn-hover">
+              🧠 {userProfile.personalFacts?.length || 0} facts
+            </button>
+          </div>
+          
           <div style={s.card} className={`glass-card card-enter ${shakeCard ? 'shake' : ''}`}>
             {phase === 'ask' && (
               <div>
@@ -573,11 +754,7 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
                     <button 
                       key={opt.id} 
                       className="option-btn" 
-                      style={{
-                        ...s.optionButton, 
-                        ...(selectedQuestion === opt.id ? s.optionButtonSelected : {}),
-                        ...(opt.id === 'custom' ? s.optionButtonWide : {})
-                      }} 
+                      style={{...s.optionButton, ...(selectedQuestion === opt.id ? s.optionButtonSelected : {}), ...(opt.id === 'custom' ? s.optionButtonWide : {})}} 
                       onClick={() => setSelectedQuestion(opt.id)}
                     >
                       <span style={s.optionIcon} className={selectedQuestion === opt.id ? 'bounce' : ''}>{opt.icon}</span>
@@ -586,31 +763,20 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
                   ))}
                 </div>
                 {selectedQuestion === 'custom' && (
-                  <input 
-                    type="text" 
-                    style={s.customInput} 
-                    placeholder="Type your question..." 
-                    value={customQuestion}
-                    onChange={(e) => setCustomQuestion(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleCommit()}
-                  />
+                  <input type="text" style={s.customInput} placeholder="Type your question..." value={customQuestion} onChange={(e) => setCustomQuestion(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleCommit()} />
                 )}
                 <button 
                   className={`btn-hover ${(selectedQuestion && (selectedQuestion !== 'custom' || customQuestion.trim())) ? 'glow-pink' : ''}`} 
-                  style={{
-                    ...s.button, 
-                    ...s.buttonPrimary, 
-                    marginTop: '20px', 
-                    ...((selectedQuestion && (selectedQuestion !== 'custom' || customQuestion.trim())) ? {} : s.buttonDisabled)
-                  }} 
+                  style={{...s.button, ...s.buttonPrimary, marginTop: '20px', ...((selectedQuestion && (selectedQuestion !== 'custom' || customQuestion.trim())) ? {} : s.buttonDisabled)}} 
                   onClick={handleCommit} 
                   disabled={!selectedQuestion || (selectedQuestion === 'custom' && !customQuestion.trim())}
                 >
                   I NEED AN ANSWER
                 </button>
                 <div style={s.statsContainer}>
-                  <span>📊 {decisionHistory.length} decisions made</span>
-                  <span>🧠 {rejectedDecisions.length} lessons learned</span>
+                  <span>📊 {decisionHistory.length} decisions</span>
+                  <span>🧠 {userProfile.personalFacts?.length || 0} facts</span>
+                  <span>📚 {rejectedDecisions.length} lessons</span>
                 </div>
               </div>
             )}
@@ -620,12 +786,10 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
                 <div style={s.warningIcon} className="warning-pulse">⚠️</div>
                 <h2 style={s.commitTitle} className="glow-text">WAIT.</h2>
                 <p style={s.commitText}>Once you see the answer, you <span style={s.bold}>MUST</span> do it.</p>
-                <p style={s.commitText}>No backing out. No excuses. No "but actually..."</p>
+                <p style={s.commitText}>No backing out. No excuses.</p>
                 <div style={s.questionPreview}>"{getSelectedLabel()}"</div>
                 {aiError && <div style={s.errorText}>{aiError}</div>}
-                <button className="btn-hover glow-pink" style={{...s.button, ...s.buttonDanger}} onClick={handleReveal}>
-                  I COMMIT. SHOW ME.
-                </button>
+                <button className="btn-hover glow-pink" style={{...s.button, ...s.buttonDanger}} onClick={handleReveal}>I COMMIT. SHOW ME.</button>
                 <button className="btn-hover" style={{...s.button, ...s.buttonGhost}} onClick={resetApp}>I'm not ready (coward)</button>
               </div>
             )}
@@ -649,6 +813,7 @@ Respond with ONLY the decision text. No quotes, no "I think", just the decision.
               </div>
             )}
           </div>
+          
           <div style={s.footer}>
             <p style={s.footerText}>
               {streak === 0 && "Make your first decision. Build your streak."}

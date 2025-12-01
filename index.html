@@ -10,13 +10,310 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Space Grotesk', sans-serif; }
+    body { font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+    
+    /* Animated gradient background */
+    .animated-bg {
+      background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #16213e, #0f0f23);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 107, 53, 0.3);
+      border-radius: 50%;
+      animation: float 20s infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    /* Glow effects */
+    .glow-orange {
+      box-shadow: 0 0 20px rgba(255, 107, 53, 0.4), 0 0 40px rgba(255, 107, 53, 0.2), 0 0 60px rgba(255, 107, 53, 0.1);
+    }
+    
+    .glow-text {
+      text-shadow: 0 0 20px rgba(255, 107, 53, 0.8), 0 0 40px rgba(255, 107, 53, 0.4);
+    }
+    
+    /* Button animations */
+    .btn-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .btn-hover:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 40px rgba(255, 107, 53, 0.4);
+    }
+    
+    .btn-hover:active {
+      transform: translateY(0) scale(0.98);
+    }
+    
+    /* Card animations */
+    .card-enter {
+      animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes cardEnter {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    
+    /* Shake animation */
+    .shake {
+      animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+    
+    @keyframes shake {
+      10%, 90% { transform: translateX(-1px); }
+      20%, 80% { transform: translateX(2px); }
+      30%, 50%, 70% { transform: translateX(-4px); }
+      40%, 60% { transform: translateX(4px); }
+    }
+    
+    /* Pulse animation */
+    .pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    /* Streak glow pulse */
+    .streak-glow {
+      animation: streakPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes streakPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.6), 0 0 60px rgba(255, 107, 53, 0.3); }
+    }
+    
+    /* Option button hover */
+    .option-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .option-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      animation: confettiFall 3s ease-out forwards;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    /* Celebration overlay */
+    .celebration-overlay {
+      animation: celebrationPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes celebrationPop {
+      0% { transform: translate(-50%, -50%) scale(0); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    
+    /* Reveal animation */
+    .reveal-text {
+      animation: revealText 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes revealText {
+      0% { opacity: 0; transform: scale(0.8); filter: blur(10px); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+    
+    /* Glassmorphism card */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Animated border */
+    .animated-border {
+      position: relative;
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 140, 66, 0.05));
+    }
+    
+    .animated-border::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff6b35, #ff8c42, #ff6b35, #ff8c42);
+      background-size: 400% 400%;
+      border-radius: 18px;
+      z-index: -1;
+      animation: borderGlow 3s ease infinite;
+      opacity: 0.5;
+    }
+    
+    @keyframes borderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Progress bar animation */
+    .progress-fill {
+      background: linear-gradient(90deg, #ff6b35, #ff8c42, #ff6b35);
+      background-size: 200% 100%;
+      animation: progressShine 2s linear infinite;
+    }
+    
+    @keyframes progressShine {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    /* Bounce animation for emojis */
+    .bounce {
+      animation: bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes bounce {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Warning pulse */
+    .warning-pulse {
+      animation: warningPulse 1s ease-in-out infinite;
+    }
+    
+    @keyframes warningPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 107, 53, 0.5); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 107, 53, 0.7); }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
     const { useState, useEffect } = React;
+
+    // Confetti Component
+    const Confetti = ({ active }) => {
+      if (!active) return null;
+      
+      const colors = ['#ff6b35', '#ff8c42', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6b6b'];
+      const pieces = Array.from({ length: 50 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 0.5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: Math.random() * 10 + 5,
+      }));
+      
+      return (
+        <div className="confetti">
+          {pieces.map(piece => (
+            <div
+              key={piece.id}
+              className="confetti-piece"
+              style={{
+                left: `${piece.left}%`,
+                animationDelay: `${piece.delay}s`,
+                backgroundColor: piece.color,
+                width: piece.size,
+                height: piece.size,
+                borderRadius: Math.random() > 0.5 ? '50%' : '0',
+              }}
+            />
+          ))}
+        </div>
+      );
+    };
+
+    // Floating Particles
+    const Particles = () => {
+      const particles = Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 20,
+        duration: 15 + Math.random() * 10,
+        size: 2 + Math.random() * 4,
+      }));
+      
+      return (
+        <div className="particles">
+          {particles.map(p => (
+            <div
+              key={p.id}
+              className="particle"
+              style={{
+                left: `${p.left}%`,
+                animationDelay: `${p.delay}s`,
+                animationDuration: `${p.duration}s`,
+                width: p.size,
+                height: p.size,
+              }}
+            />
+          ))}
+        </div>
+      );
+    };
 
     const DecideAlready = () => {
       const [selectedQuestion, setSelectedQuestion] = useState('');
@@ -25,9 +322,11 @@
       const [streak, setStreak] = useState(0);
       const [isLoading, setIsLoading] = useState(false);
       const [showCelebration, setShowCelebration] = useState(false);
+      const [showConfetti, setShowConfetti] = useState(false);
       const [rerollUsed, setRerollUsed] = useState(false);
       const [rerollAvailable, setRerollAvailable] = useState(true);
       const [onboardingStep, setOnboardingStep] = useState(0);
+      const [shakeCard, setShakeCard] = useState(false);
       const [userProfile, setUserProfile] = useState({
         name: '',
         dietaryRestrictions: [],
@@ -58,17 +357,9 @@
       ];
 
       const onboardingQuestions = [
+        { id: 'name', question: "What should I call you?", type: 'text', field: 'name' },
         {
-          id: 'name',
-          question: "What should I call you?",
-          type: 'text',
-          field: 'name',
-        },
-        {
-          id: 'dietary',
-          question: "Any foods you CAN'T or WON'T eat?",
-          type: 'multiSelect',
-          field: 'dietaryRestrictions',
+          id: 'dietary', question: "Any foods you CAN'T or WON'T eat?", type: 'multiSelect', field: 'dietaryRestrictions',
           options: [
             { id: 'vegetarian', label: '🥬 Vegetarian' },
             { id: 'vegan', label: '🌱 Vegan' },
@@ -82,10 +373,7 @@
           ],
         },
         {
-          id: 'cuisines',
-          question: "What cuisines do you LOVE?",
-          type: 'multiSelect',
-          field: 'favoriteCuisines',
+          id: 'cuisines', question: "What cuisines do you LOVE?", type: 'multiSelect', field: 'favoriteCuisines',
           options: [
             { id: 'italian', label: '🍝 Italian' },
             { id: 'mexican', label: '🌮 Mexican' },
@@ -100,10 +388,7 @@
           ],
         },
         {
-          id: 'entertainment',
-          question: "What do you like to watch?",
-          type: 'multiSelect',
-          field: 'entertainmentLikes',
+          id: 'entertainment', question: "What do you like to watch?", type: 'multiSelect', field: 'entertainmentLikes',
           options: [
             { id: 'comedy', label: '😂 Comedy' },
             { id: 'drama', label: '🎭 Drama' },
@@ -119,10 +404,7 @@
           ],
         },
         {
-          id: 'entertainmentHate',
-          question: "What do you NEVER want to watch?",
-          type: 'multiSelect',
-          field: 'entertainmentDislikes',
+          id: 'entertainmentHate', question: "What do you NEVER want to watch?", type: 'multiSelect', field: 'entertainmentDislikes',
           options: [
             { id: 'comedy', label: '😂 Comedy' },
             { id: 'drama', label: '🎭 Drama' },
@@ -139,10 +421,7 @@
           ],
         },
         {
-          id: 'personality',
-          question: "Social battery?",
-          type: 'singleSelect',
-          field: 'personality',
+          id: 'personality', question: "Social battery?", type: 'singleSelect', field: 'personality',
           options: [
             { id: 'introvert', label: '🏠 Introvert - Recharging alone' },
             { id: 'extrovert', label: '🎉 Extrovert - Energized by people' },
@@ -150,10 +429,7 @@
           ],
         },
         {
-          id: 'chronotype',
-          question: "When are you at your best?",
-          type: 'singleSelect',
-          field: 'chronotype',
+          id: 'chronotype', question: "When are you at your best?", type: 'singleSelect', field: 'chronotype',
           options: [
             { id: 'earlyBird', label: '🌅 Early Bird - Morning person' },
             { id: 'nightOwl', label: '🦉 Night Owl - Late night energy' },
@@ -161,10 +437,7 @@
           ],
         },
         {
-          id: 'fitness',
-          question: "Fitness level?",
-          type: 'singleSelect',
-          field: 'fitnessLevel',
+          id: 'fitness', question: "Fitness level?", type: 'singleSelect', field: 'fitnessLevel',
           options: [
             { id: 'beginner', label: '🌱 Just starting out' },
             { id: 'intermediate', label: '💪 Regular exerciser' },
@@ -332,9 +605,7 @@
         if (selectedQuestion === 'eat') {
           options = options.filter(opt => {
             for (let restriction of userProfile.dietaryRestrictions) {
-              if (opt.restrictions && opt.restrictions.includes(restriction)) {
-                return false;
-              }
+              if (opt.restrictions && opt.restrictions.includes(restriction)) return false;
             }
             return true;
           });
@@ -342,17 +613,13 @@
           const favoritedOptions = options.filter(opt => 
             opt.tags && opt.tags.some(tag => userProfile.favoriteCuisines.includes(tag))
           );
-          if (favoritedOptions.length > 0 && Math.random() > 0.3) {
-            options = favoritedOptions;
-          }
+          if (favoritedOptions.length > 0 && Math.random() > 0.3) options = favoritedOptions;
         }
         
         if (selectedQuestion === 'watch') {
           options = options.filter(opt => {
             for (let dislike of userProfile.entertainmentDislikes) {
-              if (opt.tags && opt.tags.includes(dislike)) {
-                return false;
-              }
+              if (opt.tags && opt.tags.includes(dislike)) return false;
             }
             return true;
           });
@@ -360,52 +627,28 @@
           const likedOptions = options.filter(opt =>
             opt.tags && opt.tags.some(tag => userProfile.entertainmentLikes.includes(tag))
           );
-          if (likedOptions.length > 0 && Math.random() > 0.3) {
-            options = likedOptions;
-          }
+          if (likedOptions.length > 0 && Math.random() > 0.3) options = likedOptions;
         }
         
-        if (selectedQuestion === 'goOut') {
-          if (userProfile.personality) {
-            const personalityOptions = options.filter(opt =>
-              opt.tags && opt.tags.includes(userProfile.personality)
-            );
-            if (personalityOptions.length > 0) {
-              options = personalityOptions;
-            }
-          }
+        if (selectedQuestion === 'goOut' && userProfile.personality) {
+          const personalityOptions = options.filter(opt => opt.tags && opt.tags.includes(userProfile.personality));
+          if (personalityOptions.length > 0) options = personalityOptions;
         }
         
-        if (selectedQuestion === 'sleep') {
-          if (userProfile.chronotype) {
-            const chronoOptions = options.filter(opt =>
-              opt.tags && opt.tags.includes(userProfile.chronotype)
-            );
-            if (chronoOptions.length > 0) {
-              options = chronoOptions;
-            }
-          }
+        if (selectedQuestion === 'sleep' && userProfile.chronotype) {
+          const chronoOptions = options.filter(opt => opt.tags && opt.tags.includes(userProfile.chronotype));
+          if (chronoOptions.length > 0) options = chronoOptions;
         }
         
-        if (selectedQuestion === 'workout') {
-          if (userProfile.fitnessLevel) {
-            const fitnessOptions = options.filter(opt =>
-              opt.tags && opt.tags.includes(userProfile.fitnessLevel)
-            );
-            if (fitnessOptions.length > 0) {
-              options = fitnessOptions;
-            }
-          }
+        if (selectedQuestion === 'workout' && userProfile.fitnessLevel) {
+          const fitnessOptions = options.filter(opt => opt.tags && opt.tags.includes(userProfile.fitnessLevel));
+          if (fitnessOptions.length > 0) options = fitnessOptions;
         }
         
         const categoryRejections = rejectedDecisions.filter(r => r.category === selectedQuestion);
-        options = options.filter(opt => 
-          !categoryRejections.some(r => r.decision === opt.text)
-        );
+        options = options.filter(opt => !categoryRejections.some(r => r.decision === opt.text));
         
-        if (options.length === 0) {
-          options = decisions[selectedQuestion];
-        }
+        if (options.length === 0) options = decisions[selectedQuestion];
         
         const selected = options[Math.floor(Math.random() * options.length)];
         return typeof selected === 'object' ? selected.text : selected;
@@ -437,6 +680,8 @@
 
       const handleCommit = () => {
         if (!selectedQuestion) return;
+        setShakeCard(true);
+        setTimeout(() => setShakeCard(false), 500);
         setPhase('commit');
       };
 
@@ -454,20 +699,20 @@
         setStreak(newStreak);
         localStorage.setItem('decideAlreadyStreak', newStreak.toString());
         setShowCelebration(true);
+        setShowConfetti(true);
         setTimeout(() => {
           setShowCelebration(false);
+          setShowConfetti(false);
           resetApp();
-        }, 2000);
+        }, 3000);
       };
 
       const handleReroll = () => {
         if (!rerollAvailable) return;
-        
         const today = new Date().toDateString();
         localStorage.setItem('decideAlreadyRerollDate', today);
         setRerollUsed(true);
         setRerollAvailable(false);
-        
         setIsLoading(true);
         setTimeout(() => {
           setDecision(getDecision());
@@ -475,25 +720,15 @@
         }, 1500);
       };
 
-      const handleBroken = () => {
-        setShowFeedback(true);
-      };
+      const handleBroken = () => setShowFeedback(true);
 
       const handleFeedbackSubmit = () => {
-        const newRejection = {
-          category: selectedQuestion,
-          decision: decision,
-          reason: feedbackReason,
-          timestamp: new Date().toISOString(),
-        };
-        
+        const newRejection = { category: selectedQuestion, decision, reason: feedbackReason, timestamp: new Date().toISOString() };
         const updatedRejections = [...rejectedDecisions, newRejection];
         setRejectedDecisions(updatedRejections);
         localStorage.setItem('decideAlreadyRejections', JSON.stringify(updatedRejections));
-        
         setStreak(0);
         localStorage.setItem('decideAlreadyStreak', '0');
-        
         setShowFeedback(false);
         setFeedbackReason('');
         resetApp();
@@ -524,717 +759,211 @@
         }
       };
 
-      const getSelectedLabel = () => {
-        return questionOptions.find(q => q.id === selectedQuestion)?.label || '';
-      };
+      const getSelectedLabel = () => questionOptions.find(q => q.id === selectedQuestion)?.label || '';
 
       const resetProfile = () => {
         localStorage.removeItem('decideAlreadyProfile');
         localStorage.removeItem('decideAlreadyRejections');
-        setUserProfile({
-          name: '',
-          dietaryRestrictions: [],
-          favoriteCuisines: [],
-          hatedCuisines: [],
-          entertainmentLikes: [],
-          entertainmentDislikes: [],
-          personality: '',
-          chronotype: '',
-          fitnessLevel: '',
-          datingStyle: '',
-        });
+        setUserProfile({ name: '', dietaryRestrictions: [], favoriteCuisines: [], hatedCuisines: [], entertainmentLikes: [], entertainmentDislikes: [], personality: '', chronotype: '', fitnessLevel: '', datingStyle: '' });
         setRejectedDecisions([]);
         setOnboardingStep(0);
         setPhase('onboarding');
       };
 
       const styles = {
-        container: {
-          minHeight: '100vh',
-          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
-          fontFamily: '"Space Grotesk", "Segoe UI", sans-serif',
-          color: '#fff',
-          padding: '20px',
-          position: 'relative',
-          overflow: 'hidden',
-        },
-        celebration: {
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          fontSize: '48px',
-          fontWeight: '900',
-          color: '#ff6b35',
-          textShadow: '0 0 40px rgba(255, 107, 53, 0.8)',
-          zIndex: 1000,
-          background: 'rgba(0,0,0,0.9)',
-          padding: '40px 60px',
-          borderRadius: '20px',
-          border: '3px solid #ff6b35',
-        },
-        header: {
-          textAlign: 'center',
-          marginBottom: '20px',
-          paddingTop: '20px',
-        },
-        logo: {
-          fontSize: '42px',
-          fontWeight: '900',
-          margin: 0,
-          letterSpacing: '-2px',
-          textTransform: 'uppercase',
-        },
-        logoAccent: {
-          color: '#ff6b35',
-          display: 'block',
-          fontSize: '48px',
-          lineHeight: '1',
-          textShadow: '0 0 30px rgba(255, 107, 53, 0.5)',
-        },
-        tagline: {
-          fontSize: '14px',
-          color: '#888',
-          marginTop: '10px',
-          letterSpacing: '3px',
-          textTransform: 'uppercase',
-        },
-        progressBar: {
-          width: '100%',
-          maxWidth: '500px',
-          height: '6px',
-          background: 'rgba(255,255,255,0.1)',
-          borderRadius: '3px',
-          margin: '0 auto 30px',
-          overflow: 'hidden',
-        },
-        progressFill: {
-          height: '100%',
-          background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)',
-          transition: 'width 0.3s ease',
-        },
-        streakContainer: {
-          display: 'flex',
-          justifyContent: 'center',
-          marginBottom: '30px',
-        },
-        streak: {
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          background: 'rgba(255, 107, 53, 0.1)',
-          border: '2px solid rgba(255, 107, 53, 0.3)',
-          borderRadius: '50px',
-          padding: '10px 25px',
-        },
-        streakFire: {
-          fontSize: '24px',
-        },
-        streakNumber: {
-          fontSize: '32px',
-          fontWeight: '900',
-          color: '#ff6b35',
-        },
-        streakLabel: {
-          fontSize: '12px',
-          color: '#888',
-          letterSpacing: '2px',
-        },
-        card: {
-          background: 'rgba(255, 255, 255, 0.03)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '24px',
-          padding: '40px 30px',
-          maxWidth: '500px',
-          margin: '0 auto',
-          backdropFilter: 'blur(10px)',
-        },
-        askPhase: {
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-        },
-        label: {
-          fontSize: '12px',
-          letterSpacing: '3px',
-          color: '#888',
-          textAlign: 'center',
-        },
-        optionsGrid: {
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '12px',
-        },
-        optionButton: {
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '16px 12px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          border: '2px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '16px',
-          cursor: 'pointer',
-          transition: 'all 0.3s',
-          fontFamily: 'inherit',
-        },
-        optionButtonSelected: {
-          background: 'rgba(255, 107, 53, 0.2)',
-          borderColor: '#ff6b35',
-          boxShadow: '0 0 20px rgba(255, 107, 53, 0.3)',
-        },
-        optionIcon: {
-          fontSize: '28px',
-        },
-        optionText: {
-          fontSize: '13px',
-          color: '#fff',
-          textAlign: 'center',
-          lineHeight: '1.3',
-        },
-        button: {
-          padding: '18px 32px',
-          fontSize: '16px',
-          fontWeight: '700',
-          borderRadius: '12px',
-          border: 'none',
-          cursor: 'pointer',
-          letterSpacing: '1px',
-          transition: 'all 0.3s',
-          fontFamily: 'inherit',
-        },
-        buttonPrimary: {
-          background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)',
-          color: '#000',
-          boxShadow: '0 10px 30px rgba(255, 107, 53, 0.3)',
-        },
-        buttonDisabled: {
-          opacity: 0.5,
-          cursor: 'not-allowed',
-        },
-        buttonDanger: {
-          background: 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)',
-          color: '#fff',
-          boxShadow: '0 10px 30px rgba(231, 76, 60, 0.3)',
-        },
-        buttonGhost: {
-          background: 'transparent',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          color: '#666',
-          fontSize: '14px',
-        },
-        buttonSuccess: {
-          background: 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)',
-          color: '#fff',
-          flex: 1,
-        },
-        buttonFail: {
-          background: 'transparent',
-          border: '2px solid #e74c3c',
-          color: '#e74c3c',
-          flex: 1,
-        },
-        buttonShare: {
-          background: 'rgba(255, 255, 255, 0.1)',
-          color: '#fff',
-          width: '100%',
-          marginTop: '10px',
-        },
-        buttonReroll: {
-          background: 'transparent',
-          border: '2px solid #f39c12',
-          color: '#f39c12',
-          width: '100%',
-          marginTop: '10px',
-        },
-        rerollUsed: {
-          fontSize: '14px',
-          color: '#e74c3c',
-          fontStyle: 'italic',
-          padding: '10px',
-          background: 'rgba(231, 76, 60, 0.1)',
-          borderRadius: '8px',
-          marginTop: '10px',
-        },
-        rerolling: {
-          fontSize: '16px',
-          color: '#f39c12',
-          fontWeight: '700',
-          padding: '15px',
-          marginTop: '10px',
-        },
-        commitPhase: {
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '15px',
-        },
-        warningIcon: {
-          fontSize: '64px',
-        },
-        commitTitle: {
-          fontSize: '36px',
-          fontWeight: '900',
-          margin: 0,
-          color: '#ff6b35',
-        },
-        commitText: {
-          fontSize: '18px',
-          color: '#ccc',
-          margin: 0,
-          lineHeight: '1.6',
-        },
-        bold: {
-          color: '#fff',
-          fontWeight: '700',
-        },
-        questionPreview: {
-          background: 'rgba(255, 107, 53, 0.1)',
-          border: '1px solid rgba(255, 107, 53, 0.3)',
-          borderRadius: '12px',
-          padding: '15px 20px',
-          fontSize: '16px',
-          fontStyle: 'italic',
-          color: '#ff6b35',
-          margin: '10px 0',
-        },
-        revealPhase: {
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '15px',
-        },
-        verdictLabel: {
-          fontSize: '12px',
-          letterSpacing: '4px',
-          color: '#888',
-        },
-        decision: {
-          fontSize: '24px',
-          fontWeight: '700',
-          lineHeight: '1.5',
-          color: '#fff',
-          padding: '20px',
-          background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(255, 107, 53, 0.05) 100%)',
-          borderRadius: '16px',
-          border: '2px solid rgba(255, 107, 53, 0.3)',
-        },
-        questionReminder: {
-          fontSize: '14px',
-          color: '#666',
-          fontStyle: 'italic',
-        },
-        actionButtons: {
-          display: 'flex',
-          gap: '15px',
-          marginTop: '10px',
-        },
-        footer: {
-          textAlign: 'center',
-          marginTop: '40px',
-          padding: '20px',
-        },
-        footerText: {
-          fontSize: '14px',
-          color: '#555',
-          fontStyle: 'italic',
-        },
-        resetButton: {
-          marginTop: '15px',
-          background: 'transparent',
-          border: 'none',
-          color: '#444',
-          fontSize: '12px',
-          cursor: 'pointer',
-          textDecoration: 'underline',
-        },
-        onboardingQuestion: {
-          fontSize: '24px',
-          fontWeight: '700',
-          textAlign: 'center',
-          marginBottom: '25px',
-          color: '#fff',
-        },
-        textInput: {
-          width: '100%',
-          padding: '18px 20px',
-          fontSize: '18px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          border: '2px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '12px',
-          color: '#fff',
-          outline: 'none',
-          fontFamily: 'inherit',
-          boxSizing: 'border-box',
-        },
-        onboardingOptions: {
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '10px',
-          justifyContent: 'center',
-        },
-        onboardingOption: {
-          padding: '12px 18px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          border: '2px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '25px',
-          color: '#fff',
-          fontSize: '14px',
-          cursor: 'pointer',
-          transition: 'all 0.3s',
-          fontFamily: 'inherit',
-        },
-        onboardingOptionsSingle: {
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-        },
-        onboardingOptionSingle: {
-          padding: '16px 20px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          border: '2px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '12px',
-          color: '#fff',
-          fontSize: '16px',
-          cursor: 'pointer',
-          transition: 'all 0.3s',
-          fontFamily: 'inherit',
-          textAlign: 'left',
-        },
-        onboardingOptionSelected: {
-          background: 'rgba(255, 107, 53, 0.2)',
-          borderColor: '#ff6b35',
-          boxShadow: '0 0 15px rgba(255, 107, 53, 0.3)',
-        },
-        feedbackTitle: {
-          fontSize: '24px',
-          fontWeight: '700',
-          textAlign: 'center',
-          marginBottom: '10px',
-          color: '#fff',
-        },
-        feedbackSubtitle: {
-          fontSize: '14px',
-          color: '#888',
-          textAlign: 'center',
-          marginBottom: '20px',
-        },
-        feedbackDecision: {
-          background: 'rgba(231, 76, 60, 0.1)',
-          border: '1px solid rgba(231, 76, 60, 0.3)',
-          borderRadius: '12px',
-          padding: '15px',
-          fontSize: '16px',
-          fontStyle: 'italic',
-          color: '#e74c3c',
-          marginBottom: '20px',
-          textAlign: 'center',
-        },
-        feedbackOptions: {
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          marginBottom: '20px',
-        },
-        feedbackOption: {
-          padding: '14px 18px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          border: '2px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '12px',
-          color: '#fff',
-          fontSize: '15px',
-          cursor: 'pointer',
-          transition: 'all 0.3s',
-          fontFamily: 'inherit',
-          textAlign: 'left',
-        },
-        feedbackOptionSelected: {
-          background: 'rgba(231, 76, 60, 0.2)',
-          borderColor: '#e74c3c',
-        },
+        container: { minHeight: '100vh', fontFamily: '"Space Grotesk", sans-serif', color: '#fff', padding: '20px', position: 'relative', overflow: 'hidden' },
+        celebration: { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '48px', fontWeight: '900', color: '#ff6b35', zIndex: 1000, background: 'rgba(0,0,0,0.95)', padding: '40px 60px', borderRadius: '24px', border: '3px solid #ff6b35', textAlign: 'center' },
+        header: { textAlign: 'center', marginBottom: '20px', paddingTop: '20px', position: 'relative', zIndex: 1 },
+        logo: { fontSize: '42px', fontWeight: '900', margin: 0, letterSpacing: '-2px', textTransform: 'uppercase' },
+        logoAccent: { color: '#ff6b35', display: 'block', fontSize: '52px', lineHeight: '1' },
+        tagline: { fontSize: '14px', color: '#888', marginTop: '10px', letterSpacing: '3px', textTransform: 'uppercase' },
+        progressBar: { width: '100%', maxWidth: '500px', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', margin: '0 auto 30px', overflow: 'hidden' },
+        streakContainer: { display: 'flex', justifyContent: 'center', marginBottom: '30px', position: 'relative', zIndex: 1 },
+        streak: { display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255, 107, 53, 0.15)', border: '2px solid rgba(255, 107, 53, 0.4)', borderRadius: '50px', padding: '12px 28px' },
+        streakFire: { fontSize: '28px' },
+        streakNumber: { fontSize: '36px', fontWeight: '900', color: '#ff6b35' },
+        streakLabel: { fontSize: '12px', color: '#888', letterSpacing: '2px' },
+        card: { borderRadius: '24px', padding: '40px 30px', maxWidth: '500px', margin: '0 auto', position: 'relative', zIndex: 1 },
+        label: { fontSize: '12px', letterSpacing: '3px', color: '#888', textAlign: 'center' },
+        optionsGrid: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' },
+        optionButton: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 12px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '16px', cursor: 'pointer', fontFamily: 'inherit', color: '#fff' },
+        optionButtonSelected: { background: 'rgba(255, 107, 53, 0.2)', borderColor: '#ff6b35' },
+        optionIcon: { fontSize: '32px' },
+        optionText: { fontSize: '13px', color: '#fff', textAlign: 'center', lineHeight: '1.3' },
+        button: { padding: '18px 32px', fontSize: '16px', fontWeight: '700', borderRadius: '14px', border: 'none', cursor: 'pointer', letterSpacing: '1px', fontFamily: 'inherit' },
+        buttonPrimary: { background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)', color: '#000' },
+        buttonDisabled: { opacity: 0.5, cursor: 'not-allowed' },
+        buttonDanger: { background: 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)', color: '#fff' },
+        buttonGhost: { background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#666', fontSize: '14px' },
+        buttonSuccess: { background: 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)', color: '#fff', flex: 1 },
+        buttonFail: { background: 'transparent', border: '2px solid #e74c3c', color: '#e74c3c', flex: 1 },
+        buttonShare: { background: 'rgba(255, 255, 255, 0.1)', color: '#fff', width: '100%', marginTop: '10px' },
+        buttonReroll: { background: 'transparent', border: '2px solid #f39c12', color: '#f39c12', width: '100%', marginTop: '10px' },
+        rerollUsed: { fontSize: '14px', color: '#e74c3c', fontStyle: 'italic', padding: '12px', background: 'rgba(231, 76, 60, 0.1)', borderRadius: '12px', marginTop: '10px', textAlign: 'center' },
+        rerolling: { fontSize: '16px', color: '#f39c12', fontWeight: '700', padding: '15px', marginTop: '10px', textAlign: 'center' },
+        warningIcon: { fontSize: '72px' },
+        commitTitle: { fontSize: '42px', fontWeight: '900', margin: 0, color: '#ff6b35' },
+        commitText: { fontSize: '18px', color: '#ccc', margin: 0, lineHeight: '1.6' },
+        bold: { color: '#fff', fontWeight: '700' },
+        questionPreview: { background: 'rgba(255, 107, 53, 0.1)', border: '1px solid rgba(255, 107, 53, 0.3)', borderRadius: '12px', padding: '15px 20px', fontSize: '16px', fontStyle: 'italic', color: '#ff6b35', margin: '10px 0' },
+        verdictLabel: { fontSize: '12px', letterSpacing: '4px', color: '#888' },
+        decision: { fontSize: '24px', fontWeight: '700', lineHeight: '1.5', color: '#fff', padding: '24px', background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(255, 107, 53, 0.05) 100%)', borderRadius: '16px', border: '2px solid rgba(255, 107, 53, 0.3)' },
+        questionReminder: { fontSize: '14px', color: '#666', fontStyle: 'italic' },
+        actionButtons: { display: 'flex', gap: '15px', marginTop: '10px' },
+        footer: { textAlign: 'center', marginTop: '40px', padding: '20px', position: 'relative', zIndex: 1 },
+        footerText: { fontSize: '14px', color: '#555', fontStyle: 'italic' },
+        resetButton: { marginTop: '15px', background: 'transparent', border: 'none', color: '#444', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit' },
+        onboardingQuestion: { fontSize: '26px', fontWeight: '700', textAlign: 'center', marginBottom: '25px', color: '#fff' },
+        textInput: { width: '100%', padding: '18px 20px', fontSize: '18px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', color: '#fff', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box', transition: 'border-color 0.3s' },
+        onboardingOptions: { display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' },
+        onboardingOption: { padding: '12px 18px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '25px', color: '#fff', fontSize: '14px', cursor: 'pointer', fontFamily: 'inherit' },
+        onboardingOptionsSingle: { display: 'flex', flexDirection: 'column', gap: '10px' },
+        onboardingOptionSingle: { padding: '16px 20px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', color: '#fff', fontSize: '16px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' },
+        onboardingOptionSelected: { background: 'rgba(255, 107, 53, 0.2)', borderColor: '#ff6b35' },
+        feedbackTitle: { fontSize: '26px', fontWeight: '700', textAlign: 'center', marginBottom: '10px', color: '#fff' },
+        feedbackSubtitle: { fontSize: '14px', color: '#888', textAlign: 'center', marginBottom: '20px' },
+        feedbackDecision: { background: 'rgba(231, 76, 60, 0.1)', border: '1px solid rgba(231, 76, 60, 0.3)', borderRadius: '12px', padding: '15px', fontSize: '16px', fontStyle: 'italic', color: '#e74c3c', marginBottom: '20px', textAlign: 'center' },
+        feedbackOptions: { display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' },
+        feedbackOption: { padding: '14px 18px', background: 'rgba(255, 255, 255, 0.05)', border: '2px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px', color: '#fff', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' },
+        feedbackOptionSelected: { background: 'rgba(231, 76, 60, 0.2)', borderColor: '#e74c3c' },
       };
 
+      // ONBOARDING
       if (phase === 'onboarding') {
         const currentQ = onboardingQuestions[onboardingStep];
-        
         return (
-          <div style={styles.container}>
+          <div style={styles.container} className="animated-bg">
+            <Particles />
             <div style={styles.header}>
-              <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent}>ALREADY</span></h1>
+              <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent} className="glow-text">ALREADY</span></h1>
               <p style={styles.tagline}>Let's get to know you</p>
             </div>
-            
             <div style={styles.progressBar}>
-              <div style={{...styles.progressFill, width: `${((onboardingStep + 1) / onboardingQuestions.length) * 100}%`}} />
+              <div className="progress-fill" style={{height: '100%', width: `${((onboardingStep + 1) / onboardingQuestions.length) * 100}%`, borderRadius: '3px'}} />
             </div>
-            
-            <div style={styles.card}>
+            <div style={styles.card} className="glass-card card-enter">
               <h2 style={styles.onboardingQuestion}>{currentQ.question}</h2>
-              
               {currentQ.type === 'text' && (
-                <input
-                  type="text"
-                  style={styles.textInput}
-                  placeholder="Enter your name..."
-                  value={userProfile[currentQ.field] || ''}
-                  onChange={(e) => setUserProfile({...userProfile, [currentQ.field]: e.target.value})}
-                />
+                <input type="text" style={styles.textInput} placeholder="Enter your name..." value={userProfile[currentQ.field] || ''} onChange={(e) => setUserProfile({...userProfile, [currentQ.field]: e.target.value})} onFocus={(e) => e.target.style.borderColor = '#ff6b35'} onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'} />
               )}
-              
               {currentQ.type === 'multiSelect' && (
                 <div style={styles.onboardingOptions}>
                   {currentQ.options.map(opt => (
-                    <button
-                      key={opt.id}
-                      style={{
-                        ...styles.onboardingOption,
-                        ...(userProfile[currentQ.field]?.includes(opt.id) ? styles.onboardingOptionSelected : {})
-                      }}
-                      onClick={() => handleOnboardingSelect(currentQ.field, opt.id, true)}
-                    >
-                      {opt.label}
-                    </button>
+                    <button key={opt.id} className="option-btn" style={{...styles.onboardingOption, ...(userProfile[currentQ.field]?.includes(opt.id) ? styles.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, true)}>{opt.label}</button>
                   ))}
                 </div>
               )}
-              
               {currentQ.type === 'singleSelect' && (
                 <div style={styles.onboardingOptionsSingle}>
                   {currentQ.options.map(opt => (
-                    <button
-                      key={opt.id}
-                      style={{
-                        ...styles.onboardingOptionSingle,
-                        ...(userProfile[currentQ.field] === opt.id ? styles.onboardingOptionSelected : {})
-                      }}
-                      onClick={() => handleOnboardingSelect(currentQ.field, opt.id, false)}
-                    >
-                      {opt.label}
-                    </button>
+                    <button key={opt.id} className="option-btn" style={{...styles.onboardingOptionSingle, ...(userProfile[currentQ.field] === opt.id ? styles.onboardingOptionSelected : {})}} onClick={() => handleOnboardingSelect(currentQ.field, opt.id, false)}>{opt.label}</button>
                   ))}
                 </div>
               )}
-              
-              <button
-                style={{...styles.button, ...styles.buttonPrimary, marginTop: '20px', width: '100%'}}
-                onClick={handleOnboardingNext}
-              >
-                {onboardingStep < onboardingQuestions.length - 1 ? 'NEXT' : "LET'S GO"}
-              </button>
-              
-              {onboardingStep > 0 && (
-                <button
-                  style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}}
-                  onClick={() => setOnboardingStep(onboardingStep - 1)}
-                >
-                  Back
-                </button>
-              )}
+              <button className="btn-hover glow-orange" style={{...styles.button, ...styles.buttonPrimary, marginTop: '20px', width: '100%'}} onClick={handleOnboardingNext}>{onboardingStep < onboardingQuestions.length - 1 ? 'NEXT →' : "LET'S GO 🚀"}</button>
+              {onboardingStep > 0 && (<button className="btn-hover" style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}} onClick={() => setOnboardingStep(onboardingStep - 1)}>← Back</button>)}
             </div>
           </div>
         );
       }
 
+      // FEEDBACK
       if (showFeedback) {
         return (
-          <div style={styles.container}>
+          <div style={styles.container} className="animated-bg">
+            <Particles />
             <div style={styles.header}>
-              <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent}>ALREADY</span></h1>
+              <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent} className="glow-text">ALREADY</span></h1>
             </div>
-            
-            <div style={styles.card}>
+            <div style={styles.card} className="glass-card card-enter">
               <h2 style={styles.feedbackTitle}>Why didn't you do it?</h2>
               <p style={styles.feedbackSubtitle}>Help me learn so I don't suggest this again</p>
-              
               <div style={styles.feedbackDecision}>"{decision}"</div>
-              
               <div style={styles.feedbackOptions}>
                 {feedbackReasons.map(reason => (
-                  <button
-                    key={reason.id}
-                    style={{
-                      ...styles.feedbackOption,
-                      ...(feedbackReason === reason.id ? styles.feedbackOptionSelected : {})
-                    }}
-                    onClick={() => setFeedbackReason(reason.id)}
-                  >
-                    {reason.label}
-                  </button>
+                  <button key={reason.id} className="option-btn" style={{...styles.feedbackOption, ...(feedbackReason === reason.id ? styles.feedbackOptionSelected : {})}} onClick={() => setFeedbackReason(reason.id)}>{reason.label}</button>
                 ))}
               </div>
-              
-              <button
-                style={{
-                  ...styles.button,
-                  ...styles.buttonDanger,
-                  width: '100%',
-                  ...(feedbackReason ? {} : styles.buttonDisabled)
-                }}
-                onClick={handleFeedbackSubmit}
-                disabled={!feedbackReason}
-              >
-                SUBMIT & RESET STREAK
-              </button>
-              
-              <button
-                style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}}
-                onClick={handleSkipFeedback}
-              >
-                Skip (just reset streak)
-              </button>
+              <button className="btn-hover" style={{...styles.button, ...styles.buttonDanger, width: '100%', ...(feedbackReason ? {} : styles.buttonDisabled)}} onClick={handleFeedbackSubmit} disabled={!feedbackReason}>SUBMIT & RESET STREAK</button>
+              <button className="btn-hover" style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}} onClick={handleSkipFeedback}>Skip (just reset streak)</button>
             </div>
           </div>
         );
       }
 
+      // MAIN APP
       return (
-        <div style={styles.container}>
+        <div style={styles.container} className="animated-bg">
+          <Particles />
+          <Confetti active={showConfetti} />
           {showCelebration && (
-            <div style={styles.celebration}>
-              🔥 STREAK: {streak} 🔥
+            <div style={styles.celebration} className="celebration-overlay glow-orange">
+              <div style={{fontSize: '64px', marginBottom: '10px'}}>🔥</div>
+              <div className="glow-text">STREAK: {streak}</div>
+              <div style={{fontSize: '18px', color: '#888', marginTop: '10px'}}>You're on fire!</div>
             </div>
           )}
-          
           <div style={styles.header}>
-            <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent}>ALREADY</span></h1>
-            <p style={styles.tagline}>
-              {userProfile.name ? `${userProfile.name}, stop thinking. Start doing.` : 'Stop thinking. Start doing.'}
-            </p>
+            <h1 style={styles.logo}>DECIDE<span style={styles.logoAccent} className="glow-text">ALREADY</span></h1>
+            <p style={styles.tagline}>{userProfile.name ? `${userProfile.name}, stop thinking. Start doing.` : 'Stop thinking. Start doing.'}</p>
           </div>
-
           <div style={styles.streakContainer}>
-            <div style={styles.streak}>
-              <span style={styles.streakFire}>🔥</span>
+            <div style={styles.streak} className="streak-glow">
+              <span style={styles.streakFire} className={streak > 0 ? 'bounce' : ''}>🔥</span>
               <span style={styles.streakNumber}>{streak}</span>
               <span style={styles.streakLabel}>STREAK</span>
             </div>
           </div>
-
-          <div style={styles.card}>
+          <div style={styles.card} className={`glass-card card-enter ${shakeCard ? 'shake' : ''}`}>
             {phase === 'ask' && (
-              <div style={styles.askPhase}>
+              <div style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
                 <label style={styles.label}>WHAT CAN'T YOU DECIDE?</label>
-                
                 <div style={styles.optionsGrid}>
                   {questionOptions.map((option) => (
-                    <button
-                      key={option.id}
-                      style={{
-                        ...styles.optionButton,
-                        ...(selectedQuestion === option.id ? styles.optionButtonSelected : {})
-                      }}
-                      onClick={() => setSelectedQuestion(option.id)}
-                    >
-                      <span style={styles.optionIcon}>{option.icon}</span>
+                    <button key={option.id} className="option-btn" style={{...styles.optionButton, ...(selectedQuestion === option.id ? styles.optionButtonSelected : {})}} onClick={() => setSelectedQuestion(option.id)}>
+                      <span style={styles.optionIcon} className={selectedQuestion === option.id ? 'bounce' : ''}>{option.icon}</span>
                       <span style={styles.optionText}>{option.label}</span>
                     </button>
                   ))}
                 </div>
-
-                <button 
-                  style={{
-                    ...styles.button, 
-                    ...styles.buttonPrimary,
-                    width: '100%',
-                    ...(selectedQuestion ? {} : styles.buttonDisabled)
-                  }}
-                  onClick={handleCommit}
-                  disabled={!selectedQuestion}
-                >
-                  I NEED AN ANSWER
-                </button>
+                <button className={`btn-hover ${selectedQuestion ? 'glow-orange' : ''}`} style={{...styles.button, ...styles.buttonPrimary, width: '100%', ...(selectedQuestion ? {} : styles.buttonDisabled)}} onClick={handleCommit} disabled={!selectedQuestion}>I NEED AN ANSWER</button>
               </div>
             )}
-
             {phase === 'commit' && (
-              <div style={styles.commitPhase}>
-                <div style={styles.warningIcon}>⚠️</div>
-                <h2 style={styles.commitTitle}>WAIT.</h2>
-                <p style={styles.commitText}>
-                  Once you see the answer, you <span style={styles.bold}>MUST</span> do it.
-                </p>
-                <p style={styles.commitText}>
-                  No backing out. No excuses. No "but actually..."
-                </p>
+              <div style={{textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '15px'}}>
+                <div style={styles.warningIcon} className="warning-pulse">⚠️</div>
+                <h2 style={styles.commitTitle} className="glow-text">WAIT.</h2>
+                <p style={styles.commitText}>Once you see the answer, you <span style={styles.bold}>MUST</span> do it.</p>
+                <p style={styles.commitText}>No backing out. No excuses. No "but actually..."</p>
                 <div style={styles.questionPreview}>"{getSelectedLabel()}"</div>
-                <button 
-                  style={{...styles.button, ...styles.buttonDanger, width: '100%'}}
-                  onClick={handleReveal}
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'DECIDING YOUR FATE...' : 'I COMMIT. SHOW ME.'}
-                </button>
-                <button 
-                  style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}}
-                  onClick={resetApp}
-                >
-                  I'm not ready (coward)
-                </button>
+                <button className="btn-hover" style={{...styles.button, ...styles.buttonDanger, width: '100%'}} onClick={handleReveal} disabled={isLoading}>{isLoading ? '✨ DECIDING YOUR FATE...' : 'I COMMIT. SHOW ME.'}</button>
+                <button className="btn-hover" style={{...styles.button, ...styles.buttonGhost, width: '100%', marginTop: '10px'}} onClick={resetApp}>I'm not ready (coward)</button>
               </div>
             )}
-
             {phase === 'reveal' && (
-              <div style={styles.revealPhase}>
-                <div style={styles.verdictLabel}>THE VERDICT</div>
-                <div style={styles.decision}>{decision}</div>
+              <div style={{textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '15px'}}>
+                <div style={styles.verdictLabel}>✨ THE VERDICT ✨</div>
+                <div style={styles.decision} className="reveal-text animated-border">{decision}</div>
                 <div style={styles.questionReminder}>You asked: "{getSelectedLabel()}"</div>
-                
-                {rerollAvailable && !isLoading && (
-                  <button 
-                    style={{...styles.button, ...styles.buttonReroll}}
-                    onClick={handleReroll}
-                  >
-                    🎲 DECIDE AGAIN (1 per day)
-                  </button>
-                )}
-                
-                {!rerollAvailable && (
-                  <div style={styles.rerollUsed}>
-                    No more re-rolls today. Commit or fail.
-                  </div>
-                )}
-                
-                {isLoading && (
-                  <div style={styles.rerolling}>
-                    🎲 RE-DECIDING YOUR FATE...
-                  </div>
-                )}
-                
+                {rerollAvailable && !isLoading && (<button className="btn-hover" style={{...styles.button, ...styles.buttonReroll}} onClick={handleReroll}>🎲 DECIDE AGAIN (1 per day)</button>)}
+                {!rerollAvailable && (<div style={styles.rerollUsed}>No more re-rolls today. Commit or fail.</div>)}
+                {isLoading && (<div style={styles.rerolling} className="pulse">🎲 RE-DECIDING YOUR FATE...</div>)}
                 <div style={styles.actionButtons}>
-                  <button 
-                    style={{...styles.button, ...styles.buttonSuccess}}
-                    onClick={handleFollowed}
-                  >
-                    ✓ I DID IT
-                  </button>
-                  <button 
-                    style={{...styles.button, ...styles.buttonFail}}
-                    onClick={handleBroken}
-                  >
-                    ✗ I FAILED
-                  </button>
+                  <button className="btn-hover" style={{...styles.button, ...styles.buttonSuccess}} onClick={handleFollowed}>✓ I DID IT</button>
+                  <button className="btn-hover" style={{...styles.button, ...styles.buttonFail}} onClick={handleBroken}>✗ I FAILED</button>
                 </div>
-                
-                <button 
-                  style={{...styles.button, ...styles.buttonShare}}
-                  onClick={handleShare}
-                >
-                  📤 SHARE MY DECISION
-                </button>
+                <button className="btn-hover" style={{...styles.button, ...styles.buttonShare}} onClick={handleShare}>📤 SHARE MY DECISION</button>
               </div>
             )}
           </div>
-
           <div style={styles.footer}>
             <p style={styles.footerText}>
               {streak === 0 && "Make your first decision. Build your streak."}
               {streak > 0 && streak < 5 && "You're building momentum. Keep going."}
               {streak >= 5 && streak < 10 && "You're a decision machine now."}
-              {streak >= 10 && "UNSTOPPABLE. You've mastered your mind."}
+              {streak >= 10 && "🔥 UNSTOPPABLE. You've mastered your mind. 🔥"}
             </p>
-            <button style={styles.resetButton} onClick={resetProfile}>
-              Reset Profile
-            </button>
+            <button style={styles.resetButton} onClick={resetProfile}>Reset Profile</button>
           </div>
         </div>
       );
